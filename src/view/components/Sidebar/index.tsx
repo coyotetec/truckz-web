@@ -9,30 +9,25 @@ export function Sidebar() {
     <Container>
       <div>
         <Logo className="logo" height={32} />
-        <NavLink to="/my-loads">
-          <Button>
-            <Package size={24} />
-            Minhas Cargas
-          </Button>
+        <NavLink
+          to="/my-loads"
+          className={({ isActive }) => (isActive ? 'active' : '')}
+        >
+          <Package size={24} />
+          Minhas Cargas
         </NavLink>
         <NavLink to="/drivers">
-          <Button>
-            <Truck size={24} />
-            Motoristas Próximos
-          </Button>
+          <Truck size={24} />
+          Motoristas Próximos
         </NavLink>
         <NavLink to="/addresses">
-          <Button>
-            <MapPin size={24} />
-            Endereços
-          </Button>
+          <MapPin size={24} />
+          Endereços
         </NavLink>
         <hr />
         <NavLink to="/settings">
-          <Button>
-            <Gear size={24} />
-            Configurações
-          </Button>
+          <Gear size={24} />
+          Configurações
         </NavLink>
       </div>
       <Button action="exit">

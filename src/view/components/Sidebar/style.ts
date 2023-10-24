@@ -19,6 +19,28 @@ export const Container = styled.nav`
       margin: 2.5rem 0;
     }
 
+    a {
+      align-items: center;
+      background-color: ${({ theme }) => theme.colors.black[400]};
+      border: none;
+      border-radius: 8px;
+      color: ${({ theme }) => theme.colors.white[400]};
+      display: flex;
+      height: 3rem;
+      text-decoration: none;
+      margin-bottom: 0.75rem;
+      width: 17.5rem;
+
+      svg {
+        margin: 0 12px 0 16px;
+      }
+    }
+
+    .active {
+      background-color: ${({ theme }) => theme.colors.primary[400]};
+      color: ${({ theme }) => theme.colors.white[100]};
+    }
+
     hr {
       border: ${({ theme }) => `1px solid ${theme.colors.black[100]}`};
       margin: 0.5rem 0;
@@ -48,7 +70,6 @@ export const Button = styled.button<ButtonProps>`
     margin: 0 12px 0 16px;
   }
 
-  &:focus,
   &:active {
     background-color: ${({ action, theme }) =>
       action === 'exit'
@@ -56,7 +77,6 @@ export const Button = styled.button<ButtonProps>`
         : `${theme.colors.primary[400]}`};
     color: ${({ theme }) => theme.colors.white[100]};
   }
-
   &:hover {
     color: ${({ theme }) => theme.colors.white[100]};
   }
