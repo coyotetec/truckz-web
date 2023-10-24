@@ -16,7 +16,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   html, body, #root {
-    width: 100vw;
     min-height: 100vh;
   }
 
