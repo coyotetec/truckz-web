@@ -2,14 +2,16 @@ interface LogoProps {
   width?: number;
   height?: number;
   style?: React.CSSProperties;
+  className?: string;
 }
 
-export function Logo({ width, height, style }: LogoProps) {
+export function Logo({ width, height, style, className }: LogoProps) {
   return (
     <svg
       width={width}
       height={height}
       style={style}
+      className={className}
       viewBox="0 0 131 32"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
