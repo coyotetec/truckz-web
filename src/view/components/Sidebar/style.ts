@@ -7,6 +7,7 @@ export const Container = styled.nav`
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
+  position: fixed;
   width: 20rem;
 
   div {
@@ -21,7 +22,7 @@ export const Container = styled.nav`
 
     a {
       align-items: center;
-      background-color: ${({ theme }) => theme.colors.black[400]};
+      background-color: ${({ theme }) => theme.colors.black[600]};
       border: none;
       border-radius: 8px;
       color: ${({ theme }) => theme.colors.white[400]};
