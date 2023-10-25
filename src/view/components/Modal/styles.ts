@@ -1,0 +1,41 @@
+import styled from 'styled-components';
+
+export const Wrapper = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+`;
+
+export const Overlay = styled.div`
+  background: ${({ theme }) => theme.colors.modal.overlay};
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`;
+
+export const Container = styled.div`
+  width: 480px;
+  background: ${({ theme }) => theme.colors.black[400]};
+  z-index: 101;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px 1px hsla(0, 0%, 0%, 0.14);
+  position: relative;
+
+  .close-button {
+    display: flex;
+    background: transparent;
+    border: none;
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+`;

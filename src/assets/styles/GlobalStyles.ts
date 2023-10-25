@@ -21,8 +21,11 @@ export const GlobalStyle = createGlobalStyle`
 
   button {
     cursor: pointer;
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.white[100]};
+    font-size: 16px;
+  }
+
+  strong {
+    font-weight: 600;
   }
 
   h1, h2, h3, h4, h5 {
