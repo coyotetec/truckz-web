@@ -1,6 +1,6 @@
 import { ArrowRight } from '@phosphor-icons/react';
 import { Card } from './style';
-import loads from '../../../assets/loads.jpg';
+import loads from '../../../../../assets/images/loads.jpg';
 
 export function LoadCard() {
   return (
@@ -23,10 +23,10 @@ export function LoadCard() {
 
         <strong>Caixas de papelão</strong>
         <div className="tags">
-          <p>Tag</p>
-          <p>Tag</p>
-          <p>Completa</p>
-          <p>Complemento</p>
+          <span>Tag</span>
+          <span>Tag</span>
+          <span>Completa</span>
+          <span>Complemento</span>
         </div>
         <div className="line"></div>
       </div>

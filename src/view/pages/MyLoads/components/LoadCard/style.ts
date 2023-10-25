@@ -54,8 +54,8 @@ export const Card = styled.div`
       display: flex;
       margin-top: 8px;
 
-      p {
-        background-color: ${({ theme }) => theme.colors.primary[400]};
+      span {
+        background-color: rgba(32, 95, 43, 0.5);
         border: 2px solid ${({ theme }) => theme.colors.primary[400]};
         border-radius: 999px;
         color: ${({ theme }) => theme.colors.white[400]};

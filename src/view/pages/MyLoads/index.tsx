@@ -1,6 +1,6 @@
 import { loads } from './mockLoads';
-import { LoadCard } from '../../components/LoadCard';
-import { Button, Container, Content, LoadsContainer } from './style';
+import { LoadCard } from './components/LoadCard';
+import { Button, Container, Content, LoadsContainer } from './styles';
 
 export function MyLoads() {
   return (
