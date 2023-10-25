@@ -1,84 +1,82 @@
 import styled from 'styled-components';
 
-export const Container = styled.nav`
-  align-items: center;
-  background-color: ${({ theme }) => theme.colors.black[600]};
+export const Container = styled.aside`
+  width: 20rem;
+  height: 100vh;
+  padding: 2.5rem 1.25rem 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 100vh;
+  align-items: stretch;
+  background-color: ${({ theme }) => theme.colors.black[600]};
   position: fixed;
-  width: 20rem;
+  top: 0;
+  left: 0;
+  z-index: 999;
 
-  div {
-    align-items: center;
+  nav {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
     width: 100%;
-
-    .logo {
-      margin: 2.5rem 0;
-    }
+    margin-top: 2rem;
 
     a {
+      display: flex;
       align-items: center;
-      background-color: ${({ theme }) => theme.colors.black[600]};
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
       border: none;
       border-radius: 8px;
       color: ${({ theme }) => theme.colors.white[400]};
-      display: flex;
-      height: 3rem;
       text-decoration: none;
-      margin-bottom: 0.75rem;
-      width: 17.5rem;
+      font-weight: 500;
 
-      svg {
-        margin: 0 12px 0 16px;
+      &.active {
+        background-color: ${({ theme }) => theme.colors.primary[400]};
+        color: ${({ theme }) => theme.colors.white[100]};
       }
     }
 
-    .active {
-      background-color: ${({ theme }) => theme.colors.primary[400]};
-      color: ${({ theme }) => theme.colors.white[100]};
-    }
-
     hr {
-      border: ${({ theme }) => `1px solid ${theme.colors.black[100]}`};
+      border: 1px solid ${({ theme }) => theme.colors.black[200]};
       margin: 0.5rem 0;
-      width: 85%;
     }
   }
-`;
 
-interface ButtonProps {
-  action?: 'exit';
-}
+  footer {
+    margin-top: auto;
 
-export const Button = styled.button<ButtonProps>`
-  align-items: center;
-  background-color: ${({ action, theme }) =>
-    action === 'exit' ? theme.colors.black[400] : theme.colors.black[600]};
-  border: none;
-  border-radius: 8px;
-  color: ${({ theme }) => theme.colors.white[400]};
-  display: flex;
-  height: 3rem;
-  justify-content: ${({ action }) => action === 'exit' && 'center'};
-  margin-bottom: 0.75rem;
-  width: 17.5rem;
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
 
-  svg {
-    margin: 0 12px 0 16px;
-  }
+      img {
+        width: 2.5rem;
+        height: 2.5rem;
+        object-fit: cover;
+        border-radius: 999px;
+      }
 
-  &:active {
-    background-color: ${({ action, theme }) =>
-      action === 'exit'
-        ? `${theme.colors.complementary.red[500]}`
-        : `${theme.colors.primary[400]}`};
-    color: ${({ theme }) => theme.colors.white[100]};
-  }
-  &:hover {
-    color: ${({ theme }) => theme.colors.white[100]};
+      strong {
+        font-size: 14px;
+      }
+    }
+
+    .signout-button {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem 0rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      border-radius: 0.5rem;
+      border: 1px solid ${({ theme }) => theme.colors.black[200]};
+      background: ${({ theme }) => theme.colors.black[400]};
+      color: ${({ theme }) => theme.colors.white[800]};
+      font-weight: 500;
+    }
   }
 `;
