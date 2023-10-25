@@ -1,18 +1,14 @@
 import { ArrowRight } from '@phosphor-icons/react';
 import { Card } from './styles';
 import loads from '../../../../../assets/images/loads.jpg';
+import { formatValue } from '../../../../../utils/formatValue';
 
 export function LoadCard() {
   return (
     <Card>
       <img src={loads} alt="" />
       <div className="content">
-        <h4>
-          {new Intl.NumberFormat('pt-BR', {
-            style: 'currency',
-            currency: 'BRL',
-          }).format(400)}
-        </h4>
+        <h4>{formatValue(400)}</h4>
         <small>há 30min</small>
 
         <div className="local">

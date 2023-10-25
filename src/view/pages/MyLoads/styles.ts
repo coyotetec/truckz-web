@@ -8,7 +8,6 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin: 0 auto;
   max-width: 1012px;
 
   .head {
@@ -18,17 +17,24 @@ export const Content = styled.div`
   }
 
   h1 {
+    font-size: 2.5rem;
     margin-bottom: 0.25rem;
+  }
+
+  p {
+    font-size: 1rem;
+    color: ${({ theme }) => theme.colors.white[700]};
   }
 `;
 
 export const Button = styled.button`
-  align-items: center;
   background-color: ${({ theme }) => theme.colors.primary[400]};
   border: none;
   border-radius: 8px;
   color: ${({ theme }) => theme.colors.white[100]};
   display: flex;
+  align-items: center;
+  gap: 0.5rem;
   height: 3.25rem;
   justify-content: center;
   text-decoration: none;

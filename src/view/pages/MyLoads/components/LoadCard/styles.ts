@@ -20,6 +20,8 @@ export const Card = styled.div`
     margin-left: 1rem;
 
     small {
+      font-size: 0.75rem;
+      color: ${({ theme }) => theme.colors.white[700]};
       position: absolute;
       right: 16px;
       top: 8px;
@@ -27,6 +29,7 @@ export const Card = styled.div`
 
     h4 {
       color: ${({ theme }) => theme.colors.white[400]};
+      font-size: 1.25rem;
       margin-bottom: 6px;
     }
 
