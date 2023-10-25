@@ -1,5 +1,5 @@
 import { ArrowRight } from '@phosphor-icons/react';
-import { Card } from './style';
+import { Card } from './styles';
 import loads from '../../../../../assets/images/loads.jpg';
 
 export function LoadCard() {
