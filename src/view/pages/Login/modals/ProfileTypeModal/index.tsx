@@ -22,7 +22,13 @@ export function ProfileTypeModal({ visible, onClose }: ProfileTypeModalProps) {
           <Truck size={24} color={theme.colors.complementary.green[500]} />
           Sou motorista e faço transportes
         </button>
-        <button onClick={() => navigate('/sign-up/contractor')}>
+        <button
+          onClick={() =>
+            navigate('/sign-up/contractor', {
+              replace: true,
+            })
+          }
+        >
           <Package size={24} color={theme.colors.complementary.green[500]} />
           Preciso anunciar transportes
         </button>

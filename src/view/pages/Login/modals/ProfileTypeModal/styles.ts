@@ -10,6 +10,8 @@ export const Content = styled.main`
 
   p {
     font-size: 14px;
+    margin-top: 4px;
+    color: ${({ theme }) => theme.colors.white[700]};
   }
 
   button {

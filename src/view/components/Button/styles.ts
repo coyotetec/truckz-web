@@ -6,7 +6,7 @@ interface ContainerProps {
 
 export const Container = styled.button<ContainerProps>`
   height: 52px;
-  font-weight: 600;
+  font-weight: 500;
   font-size: 16px;
   line-height: 140%;
   color: ${({ theme }) => theme.colors.white[100]};
