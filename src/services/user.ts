@@ -2,8 +2,28 @@ import { AxiosError } from 'axios';
 import { localStorageKeys } from '../config/localStorageKeys';
 import { api } from './utils/api';
 import { APIError } from '../errors/APIError';
-import { IFindUserByIdResponse, IUpdateUserResponse } from '../types/user';
+import {
+  CheckUsernameResponse,
+  IFindUserByIdResponse,
+  IUpdateUserResponse,
+} from '../types/user';
 import { IUserData } from '../view/pages/Settings/UserData';
+
+export async function checkUsername(username: string) {
+  try {
+    const { data } = await api.get<CheckUsernameResponse>(
+      `/user/${username}/available`,
+    );
+
+    return data;
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 500) {
+        throw new APIError('Problemas no servidor, tente novamente mais tarde');
+      }
+    }
+  }
+}
 
 export async function findUserById(id: string) {
   try {
