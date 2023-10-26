@@ -1,12 +1,13 @@
 import styled from 'styled-components';
 
 export const Card = styled.div`
-  align-items: center;
   background-color: ${({ theme }) => theme.colors.black[200]};
   border-radius: 8px;
+  cursor: pointer;
   display: flex;
-  height: 8.75rem;
+  align-items: center;
   position: relative;
+  height: 8.75rem;
   width: 31rem;
 
   img {
