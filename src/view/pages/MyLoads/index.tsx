@@ -1,6 +1,7 @@
 import { loads } from './mockLoads';
 import { LoadCard } from './components/LoadCard';
-import { Button, Container, Content, LoadsContainer } from './styles';
+import { Container, Content, LoadsContainer } from './styles';
+import { Button } from '../../components/Button';
 import { Plus } from '@phosphor-icons/react';
 
 export function MyLoads() {
