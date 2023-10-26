@@ -57,7 +57,6 @@ export const Container = styled.div`
     height: 100vh;
     top: 0;
     right: 0;
-    border-radius: 20px;
     overflow: hidden;
     background-image: url(${truckOnRoadImage});
     background-repeat: no-repeat;
