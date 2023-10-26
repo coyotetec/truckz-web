@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../../../components/Input';
 import { MaskInput } from '../../../components/MaskInput';
 import { Container } from './styles';
@@ -8,6 +8,13 @@ import { useTheme } from 'styled-components';
 import { contractorSchema } from './schemas';
 import { formErrorType } from '../../../../types/global';
 import { formatZodErrors } from '../../../../utils/formatZodErrors';
+import {
+  findContractor,
+  updateContractor,
+} from '../../../../services/contractor';
+import { formatCnpj, formatCpf, formatPhone } from '../../../../utils/formats';
+import { Loader } from '../../../components/Loader';
+import { useAuth } from '../../../../hooks/useAuth';
 
 interface IContractorData {
   name: string;
@@ -18,6 +25,7 @@ interface IContractorData {
 }
 
 export function ContractorData() {
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<IContractorData>({
     name: '',
     cnpjCpf: '',
@@ -27,25 +35,78 @@ export function ContractorData() {
   });
   const [formErrors, setFormErrors] = useState<formErrorType>(null);
   const theme = useTheme();
+  const { setUser } = useAuth();
 
   function handleDataChange(field: keyof IContractorData, value: string) {
     setData((prevState) => ({ ...prevState, [field]: value }));
   }
 
-  function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
-    e?.preventDefault();
-    const dataValidation = contractorSchema.safeParse(data);
+  async function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
+    try {
+      e?.preventDefault();
+      const dataValidation = contractorSchema.safeParse(data);
 
-    if (!dataValidation.success) {
-      setFormErrors(formatZodErrors(dataValidation.error));
-      return;
+      if (!dataValidation.success) {
+        setFormErrors(formatZodErrors(dataValidation.error));
+        return;
+      }
+
+      setFormErrors(null);
+      setIsLoading(true);
+
+      const response = await updateContractor(data);
+
+      if (response) {
+        setUser((prevState) =>
+          prevState
+            ? {
+                ...prevState,
+                contractor: {
+                  name: response.name,
+                },
+              }
+            : null,
+        );
+      }
+
+      setIsLoading(false);
+    } catch {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    async function loadContractorData() {
+      try {
+        setIsLoading(true);
+        const response = await findContractor();
+
+        if (response) {
+          setData({
+            name: response.name,
+            cnpjCpf: response.cnpj
+              ? formatCnpj(response.cnpj)
+              : response.cpf
+              ? formatCpf(response.cpf)
+              : '',
+            stateRegistration: response.stateRegistration,
+            phoneNumber: formatPhone(response.phoneNumber),
+            whatsappNumber: formatPhone(response.whatsappNumber),
+          });
+        }
+
+        setIsLoading(false);
+      } catch {
+        setIsLoading(false);
+      }
     }
 
-    setFormErrors(null);
-  }
+    loadContractorData();
+  }, []);
 
   return (
     <Container>
+      <Loader visible={isLoading} />
       <h1>Dados do Contratante</h1>
       <p>Atualize suas informações de contratante</p>
       <form onSubmit={handleSubmit}>

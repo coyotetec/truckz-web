@@ -10,28 +10,50 @@ import { useState } from 'react';
 import { formErrorType } from '../../../types/global';
 import { loginSchema } from './schemas';
 import { formatZodErrors } from '../../../utils/formatZodErrors';
+import { Loader } from '../../components/Loader';
+import { APIError } from '../../../errors/APIError';
+import { useAuth } from '../../../hooks/useAuth';
 
 export function Login() {
+  const [isLoading, setIsLoading] = useState(false);
   const [profileTypeModalVisible, setProfileTypeModalVisible] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState<formErrorType>(null);
   const theme = useTheme();
+  const { signIn } = useAuth();
 
-  function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
-    e?.preventDefault();
-    const loginValidation = loginSchema.safeParse({ username, password });
+  async function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
+    try {
+      e?.preventDefault();
+      const loginValidation = loginSchema.safeParse({ username, password });
 
-    if (!loginValidation.success) {
-      setFormErrors(formatZodErrors(loginValidation.error));
-      return;
+      if (!loginValidation.success) {
+        setFormErrors(formatZodErrors(loginValidation.error));
+        return;
+      }
+
+      setFormErrors(null);
+      setIsLoading(true);
+
+      await signIn({
+        username: loginValidation.data.username,
+        password: loginValidation.data.password,
+      });
+
+      setIsLoading(false);
+    } catch (err) {
+      setIsLoading(false);
+      if (err instanceof APIError) {
+        console.log({ err });
+        console.log('Toast an error message');
+      }
     }
-
-    setFormErrors(null);
   }
 
   return (
     <Container>
+      <Loader visible={isLoading} />
       <ProfileTypeModal
         visible={profileTypeModalVisible}
         onClose={() => setProfileTypeModalVisible(false)}

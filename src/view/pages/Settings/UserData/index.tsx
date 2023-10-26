@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Input } from '../../../components/Input';
 import { Container, ImagePreviewContainer } from './styles';
 import { Button } from '../../../components/Button';
@@ -11,14 +11,18 @@ import { userSchema } from './schemas';
 import { formErrorType } from '../../../../types/global';
 import { formatZodErrors } from '../../../../utils/formatZodErrors';
 import { Loader } from '../../../components/Loader';
+import { findUserById, updateUser } from '../../../../services/user';
+import { useAuth } from '../../../../hooks/useAuth';
+import axios from 'axios';
 
-interface IUserData {
+export interface IUserData {
   email: string;
   username: string;
   password: string;
 }
 
 export function UserData() {
+  const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<IUserData>({
     email: '',
     username: '',
@@ -27,29 +31,85 @@ export function UserData() {
   const [image, setImage] = useState<File | null>(null);
   const [formErrors, setFormErrors] = useState<formErrorType>();
   const theme = useTheme();
+  const { user, setUser } = useAuth();
 
   function handleDataChange(field: keyof IUserData, value: string) {
     setData((prevState) => ({ ...prevState, [field]: value }));
   }
 
-  function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
-    e?.preventDefault();
-    const dataValidation = userSchema.safeParse(data);
+  async function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
+    try {
+      e?.preventDefault();
+      const dataValidation = userSchema.safeParse(data);
 
-    if (!dataValidation.success || !image) {
-      setFormErrors({
-        ...(!dataValidation.success && formatZodErrors(dataValidation.error)),
-        ...(!image && { logo: 'Sua logo é obrigatória' }),
+      if (!dataValidation.success || !image) {
+        setFormErrors({
+          ...(!dataValidation.success && formatZodErrors(dataValidation.error)),
+          ...(!image && { logo: 'Sua logo é obrigatória' }),
+        });
+        return;
+      }
+
+      setFormErrors(null);
+      setIsLoading(true);
+
+      const response = await updateUser({
+        userData: data,
+        image,
       });
-      return;
+
+      if (response) {
+        setUser((prevState) =>
+          prevState
+            ? {
+                ...prevState,
+                avatarUrl: response.avatarUrl,
+              }
+            : null,
+        );
+      }
+
+      setIsLoading(false);
+    } catch {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    async function loadUserData() {
+      try {
+        if (user) {
+          setIsLoading(true);
+          const response = await findUserById(user.id);
+
+          if (response) {
+            if (response.avatarUrl) {
+              const { data } = await axios.get(response.avatarUrl, {
+                responseType: 'blob',
+              });
+
+              setImage(data);
+            }
+
+            setData({
+              email: response.email,
+              username: response.username,
+              password: '',
+            });
+          }
+          setIsLoading(false);
+        }
+      } catch {
+        setIsLoading(false);
+      }
     }
 
-    setFormErrors(null);
-  }
+    loadUserData();
+  }, [user]);
 
   return (
     <Container>
-      {/* <Loader visible /> */}
+      <Loader visible={isLoading} />
       <h1>Dados de Usuário</h1>
       <p>Atualize suas informações de usuário</p>
       <form onSubmit={handleSubmit}>
