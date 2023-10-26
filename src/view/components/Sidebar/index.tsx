@@ -4,9 +4,11 @@ import { Container } from './style';
 import { Package, Truck, MapPin, Gear, SignOut } from '@phosphor-icons/react';
 import { useTheme } from 'styled-components';
 import userPlaceholder from '../../../assets/images/user-placeholder.png';
+import { useAuth } from '../../../hooks/useAuth';
 
 export function Sidebar() {
   const theme = useTheme();
+  const { user, signOut } = useAuth();
 
   return (
     <Container>
@@ -32,10 +34,10 @@ export function Sidebar() {
       </nav>
       <footer>
         <div className="profile">
-          <img src={userPlaceholder} alt="Foto de perfil" />
-          <strong>Floraplac MDF</strong>
+          <img src={user?.avatarUrl || userPlaceholder} alt="Foto de perfil" />
+          <strong>{user?.contractor?.name}</strong>
         </div>
-        <button type="button" className="signout-button">
+        <button type="button" className="signout-button" onClick={signOut}>
           Sair da conta
           <SignOut size={24} color={theme.colors.white[800]} />
         </button>
