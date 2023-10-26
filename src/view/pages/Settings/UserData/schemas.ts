@@ -11,6 +11,10 @@ export const userSchema = z.object({
     .string()
     .trim()
     .superRefine((data, ctx) => {
+      if (data.length === 0) {
+        return;
+      }
+
       if (data.length < 8) {
         return ctx.addIssue({
           code: z.ZodIssueCode.custom,
