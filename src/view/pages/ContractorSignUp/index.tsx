@@ -18,9 +18,13 @@ import { addressSchema, contractorSchema } from './schemas';
 import { formErrorType } from '../../../types/global';
 import { formatZodErrors } from '../../../utils/formatZodErrors';
 import { useNavigate } from 'react-router-dom';
+import { APIError } from '../../../errors/APIError';
+import { createContractor } from '../../../services/contractor';
+import { ConcludedModal } from './modals/ConcludedModal';
 
 export function ContractorSignUp() {
-  const [currentStep, setCurrentStep] = useState(0);
+  const [concludedModalVisible, setConcludedModalVisible] = useState(false);
+  const [currentStep, setCurrentStep] = useState(2);
   const [contractorData, setContractorData] = useState<IContractorData>({
     name: '',
     cnpjCpf: '',
@@ -95,7 +99,7 @@ export function ContractorSignUp() {
         return false;
       }
 
-      setImage(logoImageRef.current.getData());
+      setImage(logoImageResponse);
       setImageErrors(null);
       return true;
     }
@@ -106,6 +110,10 @@ export function ContractorSignUp() {
     const canContinue = persistData();
 
     if (canContinue) {
+      if (currentStep === stepsTitles.length - 1) {
+        return handleSubmit();
+      }
+
       setCurrentStep((prevState) =>
         prevState < stepsTitles.length - 1 ? prevState + 1 : prevState,
       );
@@ -119,6 +127,25 @@ export function ContractorSignUp() {
       setCurrentStep((prevState) =>
         prevState > 0 ? prevState - 1 : prevState,
       );
+    }
+  }
+
+  async function handleSubmit() {
+    try {
+      const imageLogo =
+        image || (logoImageRef.current ? logoImageRef.current.getData() : null);
+
+      await createContractor({
+        contractorData,
+        addressData,
+        image: imageLogo,
+      });
+
+      setConcludedModalVisible(true);
+    } catch (err) {
+      if (err instanceof APIError) {
+        console.log('Toast an error message');
+      }
     }
   }
 
@@ -149,9 +176,17 @@ export function ContractorSignUp() {
 
   return (
     <Container>
+      <ConcludedModal visible={concludedModalVisible} />
       <main className="content">
         <h1>
-          <button className="back-button" onClick={() => navigate('/login')}>
+          <button
+            className="back-button"
+            onClick={() =>
+              navigate('/login', {
+                replace: true,
+              })
+            }
+          >
             <ArrowLeft
               size={32}
               color={theme.colors.white[100]}
@@ -167,16 +202,18 @@ export function ContractorSignUp() {
         <form onSubmit={handleNextStep}>
           <StepDisplay />
           <div className="actions">
-            <Button type="button" onClick={handlePreviousStep}>
-              <ArrowLeft
-                size={20}
-                color={theme.colors.white[100]}
-                weight="bold"
-              />
-              Anterior
-            </Button>
+            {currentStep !== 0 && (
+              <Button type="button" onClick={handlePreviousStep}>
+                <ArrowLeft
+                  size={20}
+                  color={theme.colors.white[100]}
+                  weight="bold"
+                />
+                Anterior
+              </Button>
+            )}
             <Button type="submit">
-              Próximo
+              {currentStep === stepsTitles.length - 1 ? 'Cadastrar' : 'Próximo'}
               <ArrowRight
                 size={20}
                 color={theme.colors.white[100]}

@@ -31,7 +31,7 @@ export function Select({
       {label && <label htmlFor={name}>{label}</label>}
       <Container>
         <select id={name} {...rest}>
-          <option value="_" disabled selected>
+          <option value="_" disabled>
             {placeholder}
           </option>
           {options?.map((option) => (

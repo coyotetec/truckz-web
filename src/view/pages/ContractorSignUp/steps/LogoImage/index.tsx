@@ -18,7 +18,9 @@ export type logoImageRefType = {
 export const LogoImage = forwardRef<logoImageRefType, LogoImageProps>(
   ({ value, errors }, ref) => {
     const [image, setImage] = useState<logoImageType>(value);
-    const [preview, setPreview] = useState<string | null>(null);
+    const [preview, setPreview] = useState<string | null>(
+      value ? URL.createObjectURL(value) : null,
+    );
 
     useImperativeHandle(ref, () => ({
       getData() {
