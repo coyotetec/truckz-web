@@ -72,7 +72,6 @@ export async function updateUser({ userData, image }: UpdateUserArgs) {
     return data;
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(JSON.stringify(err.response?.data));
       if (err.response?.status === 500) {
         throw new APIError('Problemas no servidor, tente novamente mais tarde');
       }
