@@ -8,20 +8,19 @@ export function LoadCard() {
     <Card>
       <img src={loads} alt="" />
       <div className="content">
-        <h4>{formatValue(400)}</h4>
-        <small>há 30min</small>
+        <h5>{formatValue(400)}</h5>
+        <small>há 30 min.</small>
 
         <div className="local">
-          <span>City1</span>
-          <ArrowRight size={18} />
-          <span>City2</span>
+          <span>Paragominas, PA</span>
+          <ArrowRight size={18} weight="bold" />
+          <span>Castanhal, PA</span>
         </div>
 
         <strong>Caixas de papelão</strong>
+
         <div className="tags">
-          <span>Tag</span>
-          <span>Tag</span>
-          <span>Completa</span>
+          <span>Carga Completa</span>
           <span>Complemento</span>
         </div>
         <div className="line"></div>

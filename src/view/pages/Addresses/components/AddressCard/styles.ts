@@ -1,42 +1,33 @@
 import styled from 'styled-components';
 
 export const Card = styled.div`
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.black[200]};
-  border-radius: 8px;
   padding: 1rem;
-  width: 496px;
+  border-radius: 8px;
   position: relative;
 
-  div {
+  header {
     display: flex;
     align-items: center;
+    gap: 0.25rem;
     margin-bottom: 0.25rem;
-
-    h4 {
-      margin-right: 0.25rem;
-      font-size: 1.25rem;
-      color: ${({ theme }) => theme.colors.white[100]};
-    }
   }
 
-  small {
-    display: block;
+  strong {
     font-size: 0.875rem;
-    font-weight: 600;
     color: ${({ theme }) => theme.colors.white[700]};
-    line-height: normal;
+    line-height: 145%;
   }
 
   button {
-    background-color: ${({ theme }) => theme.colors.white[800]};
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    color: ${({ theme }) => theme.colors.white[400]};
+    display: flex;
     padding: 0.25rem;
-    height: 1.75rem;
-    width: 1.75rem;
-
+    background-color: ${({ theme }) => theme.colors.white[800]};
+    outline: none;
+    border: none;
+    border-radius: 4px;
+    color: ${({ theme }) => theme.colors.white[400]};
     position: absolute;
     right: 8px;
     bottom: 8px;

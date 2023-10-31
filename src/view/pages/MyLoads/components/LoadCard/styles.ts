@@ -1,24 +1,24 @@
 import styled from 'styled-components';
 
 export const Card = styled.div`
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.black[200]};
   border-radius: 8px;
-  cursor: pointer;
   display: flex;
   align-items: center;
   position: relative;
-  height: 8.75rem;
-  width: 31rem;
+  cursor: pointer;
+  overflow: hidden;
 
   img {
-    border-radius: 8px 0 0 8px;
     height: 100%;
     object-fit: cover;
     width: 7.5rem;
   }
 
   .content {
-    margin-left: 1rem;
+    padding: 1rem;
+    width: 100%;
 
     small {
       font-size: 0.75rem;
@@ -28,15 +28,15 @@ export const Card = styled.div`
       top: 8px;
     }
 
-    h4 {
+    h5 {
       color: ${({ theme }) => theme.colors.white[400]};
-      font-size: 1.25rem;
-      margin-bottom: 6px;
     }
 
     .local {
       align-items: center;
       display: flex;
+      gap: 4px;
+      margin-top: 6px;
 
       span {
         color: ${({ theme }) => theme.colors.white[400]};
@@ -45,38 +45,39 @@ export const Card = styled.div`
 
       svg {
         color: ${({ theme }) => theme.colors.primary[400]};
-        margin: 0 4px;
       }
     }
 
     strong {
       color: ${({ theme }) => theme.colors.white[100]};
       font-size: 1rem;
+      margin-top: 4px;
+      display: block;
     }
 
     .tags {
-      display: flex;
       margin-top: 8px;
+      display: flex;
+      gap: 4px;
 
       span {
         background-color: rgba(32, 95, 43, 0.5);
-        border: 2px solid ${({ theme }) => theme.colors.primary[400]};
+        border: 1px solid ${({ theme }) => theme.colors.primary[400]};
         border-radius: 999px;
-        color: ${({ theme }) => theme.colors.white[400]};
-        font-size: small;
-        margin-right: 4px;
+        font-size: 12px;
         padding: 4px 12px;
+        line-height: 150%;
       }
     }
 
     .line {
-      background: ${({ theme }) => theme.colors.primary[400]};
+      background: ${({ theme }) => theme.colors.complementary.green[500]};
       border-radius: 0 8px 8px 0;
-      height: 140px;
+      height: 100%;
       position: absolute;
       top: 0;
       right: 0;
-      width: 8px;
+      width: 6px;
     }
   }
 `;
