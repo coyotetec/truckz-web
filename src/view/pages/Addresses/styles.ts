@@ -7,23 +7,26 @@ export const Container = styled.main`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
+
   max-width: 1012px;
 
   .head {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
-  }
+    align-items: center;
 
-  h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.25rem;
-  }
+    h1 {
+      margin-bottom: 4px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: ${({ theme }) => theme.colors.white[100]};
+    }
 
-  p {
-    font-size: 1rem;
-    color: ${({ theme }) => theme.colors.white[700]};
+    p {
+      font-size: 1rem;
+      font-weight: 400;
+      color: ${({ theme }) => theme.colors.white[700]};
+    }
   }
 
   button {
@@ -31,10 +34,9 @@ export const Content = styled.div`
   }
 `;
 
-export const LoadsContainer = styled.section`
+export const AddressesContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 1.25rem;
-  margin-top: 1.5rem;
-  width: 100%;
+  padding-top: 1.5rem;
 `;
