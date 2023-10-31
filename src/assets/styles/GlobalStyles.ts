@@ -25,12 +25,12 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   strong {
-    font-weight: 600;
+    font-weight: 500;
   }
 
   h1, h2, h3, h4, h5 {
     color: ${({ theme }) => theme.colors.white[100]};
-    font-weight: 700;
+    font-weight: 600;
     line-height: 110%;
   }
 
