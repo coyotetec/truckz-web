@@ -3,6 +3,7 @@ import { Input } from '../../../../components/Input';
 import { MaskInput } from '../../../../components/MaskInput';
 import { PasswordCheck } from '../../../../components/PasswordCheck';
 import { formErrorType } from '../../../../../types/global';
+import { checkUsername } from '../../../../../services/user';
 
 export interface IContractorData {
   name: string;
@@ -28,10 +29,21 @@ export const ContractorData = forwardRef<
   contractorDataRefType,
   ContractorDataProps
 >(({ value, errors }, ref) => {
+  const [usernameAvailable, setUsernameAvailable] = useState(true);
   const [data, setData] = useState<IContractorData>(value);
 
   function handleDataChange(field: keyof IContractorData, value: string) {
     setData((prevState) => ({ ...prevState, [field]: value }));
+  }
+
+  async function handleCheckUsername(value: string) {
+    if (value) {
+      const data = await checkUsername(value);
+
+      if (data) {
+        setUsernameAvailable(data.available);
+      }
+    }
   }
 
   useImperativeHandle(ref, () => ({
@@ -83,7 +95,12 @@ export const ContractorData = forwardRef<
         placeholder="Nome de usuário"
         value={data.username}
         onChange={(e) => handleDataChange('username', e.target.value)}
-        error={errors?.username}
+        onBlur={(e) => handleCheckUsername(e.target.value)}
+        error={
+          usernameAvailable
+            ? errors?.username
+            : 'Nome de usuário não disponível'
+        }
       />
       <Input
         type="password"
