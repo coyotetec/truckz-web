@@ -6,13 +6,14 @@ import { Container } from './styles';
 import { useTheme } from 'styled-components';
 import { Separator } from './components/Separator';
 import { ProfileTypeModal } from './modals/ProfileTypeModal';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { formErrorType } from '../../../types/global';
 import { loginSchema } from './schemas';
 import { formatZodErrors } from '../../../utils/formatZodErrors';
 import { Loader } from '../../components/Loader';
 import { APIError } from '../../../errors/APIError';
 import { useAuth } from '../../../hooks/useAuth';
+import toast from 'react-hot-toast';
 
 export function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,10 @@ export function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [formErrors, setFormErrors] = useState<formErrorType>(null);
+  const canSubmit = useMemo(
+    () => loginSchema.safeParse({ username, password }).success,
+    [username, password],
+  );
   const theme = useTheme();
   const { signIn } = useAuth();
 
@@ -45,8 +50,7 @@ export function Login() {
     } catch (err) {
       setIsLoading(false);
       if (err instanceof APIError) {
-        console.log({ err });
-        console.log('Toast an error message');
+        toast.error(err.message);
       }
     }
   }
@@ -85,7 +89,7 @@ export function Login() {
           />
           <span>Esqueceu a senha?</span>
           <div className="actions">
-            <Button type="submit">
+            <Button type="submit" disabled={!canSubmit}>
               Login
               <ArrowRight
                 size={20}
