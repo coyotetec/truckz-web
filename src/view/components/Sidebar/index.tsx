@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { Logo } from '../Logo';
-import { Container } from './style';
+import { Container } from './styles';
 import { Package, Truck, MapPin, Gear, SignOut } from '@phosphor-icons/react';
 import { useTheme } from 'styled-components';
 import userPlaceholder from '../../../assets/images/user-placeholder.png';
