@@ -45,8 +45,6 @@ export async function createContractor({
 
     const formData = new FormData();
 
-    console.log({ image });
-
     if (image) {
       formData.append('avatar', image);
     }
@@ -177,7 +175,6 @@ export async function updateContractor(payload: UpdateContractorArgs) {
   } catch (err) {
     if (err instanceof AxiosError) {
       if (err.response?.status === 400) {
-        console.log(err.response.data);
         const error = err.response.data.error as string;
 
         if (error.startsWith('the following fields are already in use:')) {

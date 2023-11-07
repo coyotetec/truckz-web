@@ -21,6 +21,8 @@ import { useNavigate } from 'react-router-dom';
 import { APIError } from '../../../errors/APIError';
 import { createContractor } from '../../../services/contractor';
 import { ConcludedModal } from './modals/ConcludedModal';
+import toast from 'react-hot-toast';
+import { checkUsername } from '../../../services/user';
 
 export function ContractorSignUp() {
   const [concludedModalVisible, setConcludedModalVisible] = useState(false);
@@ -55,16 +57,35 @@ export function ContractorSignUp() {
   const navigate = useNavigate();
   const stepsTitles = ['Crie sua Conta', 'Endereço', 'Upload da Logo'];
 
-  function persistData() {
+  async function handleCheckUsername(value: string) {
+    if (value) {
+      const data = await checkUsername(value);
+
+      if (data) {
+        return data.available;
+      }
+    }
+  }
+
+  async function persistData() {
     if (contractorDataRef.current) {
       const contractorDataResponse = contractorDataRef.current.getData();
       const contractorDataValidation = contractorSchema.safeParse(
         contractorDataResponse,
       );
+      const usernameIsAvailable = await handleCheckUsername(
+        contractorDataResponse.username,
+      );
 
-      if (!contractorDataValidation.success) {
+      if (!contractorDataValidation.success || !usernameIsAvailable) {
         setContractorData(contractorDataResponse);
-        setContractorErrors(formatZodErrors(contractorDataValidation.error));
+        setContractorErrors({
+          ...(!contractorDataValidation.success &&
+            formatZodErrors(contractorDataValidation.error)),
+          ...(!usernameIsAvailable && {
+            username: 'Nome de usuário não disponível',
+          }),
+        });
         return false;
       }
 
@@ -105,9 +126,9 @@ export function ContractorSignUp() {
     }
   }
 
-  function handleNextStep(e: React.FormEvent<HTMLFormElement>) {
+  async function handleNextStep(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const canContinue = persistData();
+    const canContinue = await persistData();
 
     if (canContinue) {
       if (currentStep === stepsTitles.length - 1) {
@@ -120,8 +141,8 @@ export function ContractorSignUp() {
     }
   }
 
-  function handlePreviousStep() {
-    const canContinue = persistData();
+  async function handlePreviousStep() {
+    const canContinue = await persistData();
 
     if (canContinue) {
       setCurrentStep((prevState) =>
@@ -144,7 +165,7 @@ export function ContractorSignUp() {
       setConcludedModalVisible(true);
     } catch (err) {
       if (err instanceof APIError) {
-        console.log('Toast an error message');
+        toast.error(err.message);
       }
     }
   }

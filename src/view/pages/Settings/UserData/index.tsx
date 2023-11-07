@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Input } from '../../../components/Input';
 import { Container, ImagePreviewContainer } from './styles';
 import { Button } from '../../../components/Button';
@@ -11,9 +11,16 @@ import { userSchema } from './schemas';
 import { formErrorType } from '../../../../types/global';
 import { formatZodErrors } from '../../../../utils/formatZodErrors';
 import { Loader } from '../../../components/Loader';
-import { findUserById, updateUser } from '../../../../services/user';
+import {
+  checkUsername,
+  findUserById,
+  updateUser,
+} from '../../../../services/user';
 import { useAuth } from '../../../../hooks/useAuth';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { APIError } from '../../../../errors/APIError';
+import { localStorageKeys } from '../../../../config/localStorageKeys';
 
 export interface IUserData {
   email: string;
@@ -23,6 +30,7 @@ export interface IUserData {
 
 export function UserData() {
   const [isLoading, setIsLoading] = useState(true);
+  const [previousUsername, setPreviousUsername] = useState('');
   const [data, setData] = useState<IUserData>({
     email: '',
     username: '',
@@ -31,10 +39,31 @@ export function UserData() {
   const [image, setImage] = useState<File | null>(null);
   const [formErrors, setFormErrors] = useState<formErrorType>();
   const theme = useTheme();
+  const canSubmit = useMemo(() => userSchema.safeParse(data).success, [data]);
   const { user, setUser } = useAuth();
 
   function handleDataChange(field: keyof IUserData, value: string) {
     setData((prevState) => ({ ...prevState, [field]: value }));
+  }
+
+  async function handleCheckUsername(value: string) {
+    if (value) {
+      const data = await checkUsername(value);
+
+      if (data) {
+        setFormErrors((prevState) => {
+          const newState = { ...prevState };
+
+          if (!data.available && value !== previousUsername) {
+            newState.username = 'Nome de usuário não disponível';
+          } else {
+            delete newState.username;
+          }
+
+          return newState;
+        });
+      }
+    }
   }
 
   async function handleSubmit(e?: React.FormEvent<HTMLFormElement>) {
@@ -59,19 +88,32 @@ export function UserData() {
       });
 
       if (response) {
-        setUser((prevState) =>
-          prevState
+        setUser((prevState) => {
+          const newState = prevState
             ? {
                 ...prevState,
                 avatarUrl: response.avatarUrl,
               }
-            : null,
-        );
+            : null;
+
+          if (newState) {
+            localStorage.setItem(
+              localStorageKeys.USER,
+              JSON.stringify(newState),
+            );
+          }
+
+          return newState;
+        });
       }
 
       setIsLoading(false);
-    } catch {
+      toast.success('Dados atualizados com sucesso!');
+    } catch (err) {
       setIsLoading(false);
+      if (err instanceof APIError) {
+        toast.error(err.message);
+      }
     }
   }
 
@@ -96,6 +138,7 @@ export function UserData() {
               username: response.username,
               password: '',
             });
+            setPreviousUsername(response.username);
           }
           setIsLoading(false);
         }
@@ -127,6 +170,7 @@ export function UserData() {
           placeholder="Nome de usuário"
           value={data.username}
           onChange={(e) => handleDataChange('username', e.target.value)}
+          onBlur={(e) => handleCheckUsername(e.target.value)}
           error={formErrors?.username}
         />
         <Input
@@ -175,7 +219,7 @@ export function UserData() {
         </ImagePreviewContainer>
         <button type="submit" style={{ display: 'none' }} />
       </form>
-      <Button onClick={() => handleSubmit()}>
+      <Button onClick={() => handleSubmit()} disabled={!canSubmit}>
         <Check size={24} color={theme.colors.white[100]} weight="bold" />
         Atualizar Dados
       </Button>

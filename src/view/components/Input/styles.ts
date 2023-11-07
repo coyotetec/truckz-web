@@ -33,6 +33,7 @@ export const Container = styled.div`
     outline: none;
     font-size: 16px;
     color: ${({ theme }) => theme.colors.white[400]};
+    appearance: none;
 
     &::placeholder {
       color: ${({ theme }) => theme.colors.white[800]};

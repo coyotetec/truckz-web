@@ -259,7 +259,6 @@ export async function updateLoad({
     return data;
   } catch (err) {
     if (err instanceof AxiosError) {
-      console.log(err.response);
       if (err.response?.status === 500) {
         throw new APIError('Problemas no servidor, tente novamente mais tarde');
       }

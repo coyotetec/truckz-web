@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Input } from '../../../components/Input';
 import { MaskInput } from '../../../components/MaskInput';
 import { Container } from './styles';
@@ -15,6 +15,8 @@ import {
 import { formatCnpj, formatCpf, formatPhone } from '../../../../utils/formats';
 import { Loader } from '../../../components/Loader';
 import { useAuth } from '../../../../hooks/useAuth';
+import toast from 'react-hot-toast';
+import { localStorageKeys } from '../../../../config/localStorageKeys';
 
 interface IContractorData {
   name: string;
@@ -34,6 +36,10 @@ export function ContractorData() {
     whatsappNumber: '',
   });
   const [formErrors, setFormErrors] = useState<formErrorType>(null);
+  const canSubmit = useMemo(
+    () => contractorSchema.safeParse(data).success,
+    [data],
+  );
   const theme = useTheme();
   const { setUser } = useAuth();
 
@@ -67,9 +73,30 @@ export function ContractorData() {
               }
             : null,
         );
+
+        setUser((prevState) => {
+          const newState = prevState
+            ? {
+                ...prevState,
+                contractor: {
+                  name: response.name,
+                },
+              }
+            : null;
+
+          if (newState) {
+            localStorage.setItem(
+              localStorageKeys.USER,
+              JSON.stringify(newState),
+            );
+          }
+
+          return newState;
+        });
       }
 
       setIsLoading(false);
+      toast.success('Dados atualizados com sucesso!');
     } catch {
       setIsLoading(false);
     }
@@ -157,7 +184,7 @@ export function ContractorData() {
         />
         <button type="submit" style={{ display: 'none' }} />
       </form>
-      <Button onClick={() => handleSubmit()}>
+      <Button onClick={() => handleSubmit()} disabled={!canSubmit}>
         <Check size={24} color={theme.colors.white[100]} weight="bold" />
         Atualizar Dados
       </Button>

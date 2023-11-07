@@ -29,5 +29,7 @@ export const Container = styled.div`
     -moz-appearance: none;
     -webkit-appearance: none;
     appearance: none;
+    position: relative;
+    z-index: 5;
   }
 `;

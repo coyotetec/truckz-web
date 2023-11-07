@@ -1,12 +1,13 @@
-import { LoadCard } from './components/LoadCard';
-import { Container, Content, LoadsContainer } from './styles';
-import { Button } from '../../components/Button';
-import { Plus } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { getContractorLoads } from '../../../services/load';
 import { IGetLoadResponse } from '../../../types/load';
 import { Loader } from '../../components/Loader';
+import { LoadCard } from './components/LoadCard';
+import { Container, LoadsContainer } from './styles';
+import { Button } from '../../components/Button';
+import { Plus } from '@phosphor-icons/react';
+import { Select } from '../../components/Select';
 
 export function MyLoads() {
   const [loads, setLoads] = useState<IGetLoadResponse[]>();
@@ -24,44 +25,55 @@ export function MyLoads() {
   }, []);
   return (
     <Container>
-      <Content>
-        <div className="head">
+      <header>
+        <div className="left-side">
           <div>
             <h1>Cargas Criadas</h1>
             <p>{`Você possui ${loads?.length}`} cargas</p>
           </div>
-          <Button onClick={() => navigate('/loads/new', { replace: true })}>
-            <Plus size={20} weight="bold" />
-            Criar Carga
-          </Button>
+          <Select
+            options={[
+              { label: 'Todas as cargas', value: 'all' },
+              { label: 'Ativas', value: 'active' },
+              { label: 'Inativas', value: 'inactive' },
+            ]}
+            wrapperStyle={{ width: 240 }}
+          />
         </div>
-        <LoadsContainer>
-          <Loader visible={isLoading} />
-          {loads?.map(
-            ({
-              id,
-              loadImages,
-              price,
-              createdAt,
-              description,
-              pickupAddress,
-              deliveryAddress,
-              type,
-            }) => (
-              <LoadCard
-                key={id}
-                loadImage={loadImages[0]}
-                price={price}
-                createdAt={createdAt}
-                description={description}
-                pickupCity={pickupAddress.city}
-                deliveryCity={deliveryAddress.city}
-                type={type}
-              />
-            ),
-          )}
-        </LoadsContainer>
-      </Content>
+        <Button
+          style={{ width: 220 }}
+          onClick={() => navigate('/loads/new', { replace: true })}
+        >
+          <Plus size={20} weight="bold" />
+          Criar Carga
+        </Button>
+      </header>
+      <LoadsContainer>
+        <Loader visible={isLoading} />
+        {loads?.map(
+          ({
+            id,
+            loadImages,
+            price,
+            createdAt,
+            description,
+            pickupAddress,
+            deliveryAddress,
+            type,
+          }) => (
+            <LoadCard
+              key={id}
+              loadImage={loadImages[0]}
+              price={price}
+              createdAt={createdAt}
+              description={description}
+              pickupCity={pickupAddress.city}
+              deliveryCity={deliveryAddress.city}
+              type={type}
+            />
+          ),
+        )}
+      </LoadsContainer>
     </Container>
   );
 }

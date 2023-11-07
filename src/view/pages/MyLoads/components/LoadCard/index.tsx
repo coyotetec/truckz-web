@@ -33,7 +33,7 @@ export function LoadCard({
     <Card>
       <img src={loadImage} alt={description} />
       <div className="content">
-        <h4>{formatPrice(price)}</h4>
+        <h5>{formatPrice(price)}</h5>
         <small>{dateFormatted}</small>
 
         <div className="local">
@@ -42,7 +42,8 @@ export function LoadCard({
           <span>{deliveryCity}</span>
         </div>
 
-        <strong>Caixas de papelão</strong>
+        <strong>{description}</strong>
+
         <div className="tags">
           <span>{type}</span>
         </div>
