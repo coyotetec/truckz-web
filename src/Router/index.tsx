@@ -9,6 +9,7 @@ import { UserData } from '../view/pages/Settings/UserData';
 import { Login } from '../view/pages/Login';
 import { ContractorSignUp } from '../view/pages/ContractorSignUp';
 import { AuthGuard } from './AuthGuard';
+import { NewLoad } from '../view/pages/NewLoad';
 
 export function Router() {
   return (
@@ -21,8 +22,10 @@ export function Router() {
 
         <Route element={<AuthGuard isPrivate={true} />}>
           <Route element={<AppLayout />}>
-            <Route path="/" element={<Navigate to="/my-loads" />} />
-            <Route path="/my-loads" element={<MyLoads />} />
+            <Route path="/" element={<Navigate to="/loads" />} />
+            <Route path="/loads" element={<MyLoads />} />
+            <Route path="/loads/new" element={<NewLoad />} />
+            {/* <Route path="/loads/update" element={<NewLoad />} /> */}
             <Route path="/drivers" element={<DriversNear />} />
             <Route path="/addresses" element={<Addresses />} />
             <Route element={<SettingsLayout />}>

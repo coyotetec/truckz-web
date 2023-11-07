@@ -14,7 +14,7 @@ export function Sidebar() {
     <Container>
       <Logo height={32} />
       <nav className="menu-items">
-        <NavLink to="/my-loads">
+        <NavLink to="/loads">
           <Package size={24} />
           Minhas Cargas
         </NavLink>
