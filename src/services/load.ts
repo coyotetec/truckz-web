@@ -25,18 +25,27 @@ export async function getContractorLoads() {
     }
   }
 }
-
-interface CreateLoadArgs {
-  loadData: ILoad;
-  addressData: IAddress;
+type LoadData = {
   images: File[];
+  title: string;
+  dimensionsUnit: string;
+  height: string;
+  width: string;
+  length: string;
+  weight: string;
+  weightUnit: string;
+  description: string;
+  price: string;
+  fullLoad: boolean;
+  complementLoad: boolean;
+};
+interface CreateLoadArgs {
+  loadData: LoadData;
+  addressData: IAddress;
 }
 
-export async function createLoad({
-  loadData,
-  addressData,
-  images,
-}: CreateLoadArgs) {
+export async function createLoad({ loadData, addressData }: CreateLoadArgs) {
+  console.log(loadData);
   try {
     const token = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
     const formData = new FormData();
@@ -53,6 +62,7 @@ export async function createLoad({
         ),
       ),
     );
+    console.log(formData.get('price'));
     formData.append(
       'type',
       validateLoadType(loadData.fullLoad, loadData.complementLoad) || '',
@@ -125,7 +135,7 @@ export async function createLoad({
       );
     }
 
-    images.forEach((image) => {
+    loadData.images.forEach((image) => {
       formData.append('images', image);
     });
 
