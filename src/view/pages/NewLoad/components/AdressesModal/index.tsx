@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
 import { Modal } from '../../../../components/Modal';
-import { getAddresses } from '../../../../../services/addresses';
 import {
   IAddressResponse,
   ISelectedAddress,
@@ -11,17 +9,15 @@ interface AddressesModalProps {
   visible: boolean;
   onCloseModal: () => void;
   onSelect: (address: ISelectedAddress | null) => void;
+  addresses: IAddressResponse[] | undefined;
 }
 
 export function AdressesModal({
   visible,
   onCloseModal,
   onSelect,
+  addresses,
 }: AddressesModalProps) {
-  const [addresses, setAddresses] = useState<IAddressResponse[] | undefined>(
-    [],
-  );
-
   function onSelectAddress(addressId: string) {
     const addressData = addresses?.find((adress) => adress.id === addressId);
 
@@ -29,14 +25,6 @@ export function AdressesModal({
       onSelect(addressData);
     }
   }
-
-  useEffect(() => {
-    async function getAddressesData() {
-      const data = await getAddresses();
-      setAddresses(data);
-    }
-    getAddressesData();
-  }, []);
 
   return (
     <Modal visible={visible} onClose={onCloseModal}>

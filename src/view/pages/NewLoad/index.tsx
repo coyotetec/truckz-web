@@ -1,7 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Content } from './styles';
-import { LoadData, LoadDataRefType } from './components/DataLoad';
+import { LoadData, LoadDataRefType } from './components/LoadData';
 import {
   PickupAndDelivery,
   PickupAndDeliveryRefType,
@@ -12,6 +12,8 @@ import { loadSchema, addressSchema } from './schemas';
 import { formErrorType } from '../../../types/global';
 import { formatZodErrors } from '../../../utils/formatZodErrors';
 import { createLoad } from '../../../services/load';
+import { IAddressResponse } from '../../../types/address';
+import { getAddresses } from '../../../services/addresses';
 
 export function NewLoad() {
   const navigate = useNavigate();
@@ -21,6 +23,9 @@ export function NewLoad() {
     useState<formErrorType>(null);
   const [pickupAndDeliveryFormErrors, setPickupAndDeliveryFormErrors] =
     useState<formErrorType>(null);
+  const [addresses, setAddresses] = useState<IAddressResponse[] | undefined>(
+    [],
+  );
 
   async function handleSubmit() {
     const loadData = loadDataRef.current?.getData();
@@ -32,14 +37,11 @@ export function NewLoad() {
       pickupAndDeliveryData,
     );
 
-    console.log({ loadData, pickupAndDeliveryData });
     if (!loadDataValidation.success) {
-      console.log(loadDataValidation.error.issues);
       return setLoadDataFormErrors(formatZodErrors(loadDataValidation.error));
     }
 
     if (!pickupAndDeliveryValidation.success) {
-      console.log(pickupAndDeliveryValidation.error.issues);
       return setPickupAndDeliveryFormErrors(
         formatZodErrors(pickupAndDeliveryValidation.error),
       );
@@ -51,6 +53,14 @@ export function NewLoad() {
       pickupAndDeliveryData &&
       (await createLoad({ loadData, addressData: pickupAndDeliveryData }));
   }
+
+  useEffect(() => {
+    async function getAddressesData() {
+      const data = await getAddresses();
+      setAddresses(data);
+    }
+    getAddressesData();
+  }, []);
 
   return (
     <Container>
@@ -66,6 +76,7 @@ export function NewLoad() {
         <PickupAndDelivery
           ref={pickupAndDeliveryRef}
           formErrors={pickupAndDeliveryFormErrors}
+          addresses={addresses}
         />
       </Content>
       <Button

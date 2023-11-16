@@ -4,7 +4,10 @@ import { Address, ButtonAddress, PickupAndDeliveryContainer } from './styles';
 import { StandaloneSearchBox } from '@react-google-maps/api';
 import { Map } from '../Map';
 import { AdressesModal } from '../AdressesModal';
-import { ISelectedAddress } from '../../../../../types/address';
+import {
+  IAddressResponse,
+  ISelectedAddress,
+} from '../../../../../types/address';
 import { NotePencil } from '@phosphor-icons/react';
 import { extractGoogleMapsAddress } from '../../../../../utils/extractGoogleMapsAddress';
 import { formatAddress } from '../../../../../utils/formatAdress';
@@ -13,6 +16,7 @@ import { formErrorType } from '../../../../../types/global';
 
 interface PickupAndDeliveryProps {
   formErrors: formErrorType;
+  addresses: IAddressResponse[] | undefined;
 }
 
 export type PickupAndDeliveryRefType = {
@@ -25,7 +29,7 @@ export type PickupAndDeliveryRefType = {
 };
 
 export const PickupAndDelivery = forwardRef(
-  ({ formErrors }: PickupAndDeliveryProps, ref) => {
+  ({ formErrors, addresses }: PickupAndDeliveryProps, ref) => {
     const [map, setMap] = useState<google.maps.Map | null>(null);
     const [pickupInput, setPickupInput] =
       useState<google.maps.places.SearchBox | null>(null);
@@ -137,11 +141,13 @@ export const PickupAndDelivery = forwardRef(
           visible={pickupAddressModalVisible}
           onCloseModal={() => setPickupAddressModalVisible(false)}
           onSelect={setPickupAddress}
+          addresses={addresses}
         />
         <AdressesModal
           visible={deliveryAddressModalVisible}
           onCloseModal={() => setDeliveryAddressModalVisible(false)}
           onSelect={setDeliveryAddress}
+          addresses={addresses}
         />
         <h4>Coleta e entrega</h4>
 
