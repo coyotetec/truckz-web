@@ -29,7 +29,11 @@ export function MyLoads() {
         <div className="left-side">
           <div>
             <h1>Cargas Criadas</h1>
-            <p>{`Você possui ${loads?.length}`} cargas</p>
+            {loads ? (
+              <p>{`Você possui ${loads.length}`} cargas</p>
+            ) : (
+              <p>Você ainda não possui cargas cadastradas</p>
+            )}
           </div>
           <Select
             options={[
