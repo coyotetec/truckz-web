@@ -44,10 +44,7 @@ export function MyLoads() {
             wrapperStyle={{ width: 240 }}
           />
         </div>
-        <Button
-          style={{ width: 220 }}
-          onClick={() => navigate('/loads/new', { replace: true })}
-        >
+        <Button style={{ width: 220 }} onClick={() => navigate('/loads/new')}>
           <Plus size={20} weight="bold" />
           Criar Carga
         </Button>

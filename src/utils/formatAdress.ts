@@ -9,7 +9,7 @@ export function formatAddress(
     parts.push(address);
   }
 
-  if (number !== undefined) {
+  if (number) {
     parts.push(`${number}`);
   }
 

@@ -10,6 +10,11 @@ export const Container = styled.main`
     align-items: center;
     gap: 1rem;
 
+    svg {
+      cursor: pointer;
+      color: ${({ theme }) => theme.colors.white[100]};
+    }
+
     h1 {
       margin-bottom: 0.25rem;
     }

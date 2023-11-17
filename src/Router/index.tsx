@@ -10,6 +10,7 @@ import { Login } from '../view/pages/Login';
 import { ContractorSignUp } from '../view/pages/ContractorSignUp';
 import { AuthGuard } from './AuthGuard';
 import { NewLoad } from '../view/pages/NewLoad';
+import { NewAddress } from '../view/pages/NewAddress';
 
 export function Router() {
   return (
@@ -28,6 +29,7 @@ export function Router() {
             {/* <Route path="/loads/update" element={<NewLoad />} /> */}
             <Route path="/drivers" element={<DriversNear />} />
             <Route path="/addresses" element={<Addresses />} />
+            <Route path="addresses/new" element={<NewAddress />} />
             <Route element={<SettingsLayout />}>
               <Route
                 path="/settings"
@@ -38,6 +40,7 @@ export function Router() {
                 path="/settings/contractor-data"
                 element={<ContractorData />}
               />
+              R
             </Route>
           </Route>
         </Route>

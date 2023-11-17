@@ -17,6 +17,7 @@ import { getAddresses } from '../../../services/addresses';
 
 export function NewLoad() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const loadDataRef = useRef<LoadDataRefType>(null);
   const pickupAndDeliveryRef = useRef<PickupAndDeliveryRefType>(null);
   const [loadDataFormErrors, setLoadDataFormErrors] =
@@ -28,6 +29,7 @@ export function NewLoad() {
   );
 
   async function handleSubmit() {
+    setIsLoading(true);
     const loadData = loadDataRef.current?.getData();
     const pickupAndDeliveryData = pickupAndDeliveryRef.current?.getData();
 
@@ -52,6 +54,10 @@ export function NewLoad() {
     loadData &&
       pickupAndDeliveryData &&
       (await createLoad({ loadData, addressData: pickupAndDeliveryData }));
+    setTimeout(() => {
+      setIsLoading(false);
+      navigate('/loads');
+    }, 1000);
   }
 
   useEffect(() => {

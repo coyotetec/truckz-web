@@ -6,10 +6,12 @@ import { AddressCard } from './components/AddressCard';
 import { getAddresses } from '../../../services/addresses';
 import { IAddressResponse } from '../../../types/address';
 import { Loader } from '../../components/Loader';
+import { useNavigate } from 'react-router-dom';
 
 export function Addresses() {
   const [addresses, setAddress] = useState<IAddressResponse[] | undefined>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   useEffect(() => {
     async function addressesData() {
       const data = await getAddresses();
@@ -31,7 +33,10 @@ export function Addresses() {
             <p>Você ainda não possui endereços cadastrados</p>
           )}
         </div>
-        <Button style={{ width: 220 }} onClick={() => console.log('fui')}>
+        <Button
+          style={{ width: 220 }}
+          onClick={() => navigate('/addresses/new')}
+        >
           <Plus size={20} weight="bold" />
           Criar endereço
         </Button>
