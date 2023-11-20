@@ -11,6 +11,7 @@ import { ContractorSignUp } from '../view/pages/ContractorSignUp';
 import { AuthGuard } from './AuthGuard';
 import { NewLoad } from '../view/pages/NewLoad';
 import { NewAddress } from '../view/pages/NewAddress';
+import { UpdateAddress } from '../view/pages/UpdateAddress';
 
 export function Router() {
   return (
@@ -30,6 +31,7 @@ export function Router() {
             <Route path="/drivers" element={<DriversNear />} />
             <Route path="/addresses" element={<Addresses />} />
             <Route path="addresses/new" element={<NewAddress />} />
+            <Route path="addresses/update/:id" element={<UpdateAddress />} />
             <Route element={<SettingsLayout />}>
               <Route
                 path="/settings"
