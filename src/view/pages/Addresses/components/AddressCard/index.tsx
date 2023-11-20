@@ -1,8 +1,10 @@
 import { House, NotePencil } from '@phosphor-icons/react';
 import { Card } from './styles';
 import { formatAddress } from '../../../../../utils/formatAdress';
+import { useNavigate } from 'react-router-dom';
 
 interface AddressCardProps {
+  id: string;
   name: string;
   address: string;
   number?: number | undefined;
@@ -12,6 +14,7 @@ interface AddressCardProps {
 }
 
 export function AddressCard({
+  id,
   address,
   city,
   district,
@@ -19,7 +22,8 @@ export function AddressCard({
   state,
   number,
 }: AddressCardProps) {
-  console.log(name);
+  const navigate = useNavigate();
+
   return (
     <Card>
       <header>
@@ -28,7 +32,10 @@ export function AddressCard({
       </header>
       <strong>{formatAddress(address, number, district)}</strong>
       <p>{`${city}, ${state}`}</p>
-      <button className="editIcon">
+      <button
+        className="editIcon"
+        onClick={() => navigate(`/addresses/update/${id}`)}
+      >
         <NotePencil size={18} weight="bold" />
       </button>
     </Card>
