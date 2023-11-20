@@ -14,6 +14,7 @@ import { formatZodErrors } from '../../../utils/formatZodErrors';
 import { createLoad } from '../../../services/load';
 import { IAddressResponse } from '../../../types/address';
 import { getAddresses } from '../../../services/addresses';
+import { Loader } from '../../components/Loader';
 
 export function NewLoad() {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ export function NewLoad() {
 
   return (
     <Container>
+      <Loader visible={isLoading} />
       <header>
         <ArrowLeft size={32} weight="bold" onClick={() => navigate('/loads')} />
         <div>
