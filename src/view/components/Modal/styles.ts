@@ -22,7 +22,7 @@ export const Overlay = styled.div`
 `;
 
 export const Container = styled.div`
-  width: 480px;
+  min-width: 480px;
   background: ${({ theme }) => theme.colors.black[400]};
   z-index: 101;
   padding: 24px;
