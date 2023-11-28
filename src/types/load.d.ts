@@ -1,11 +1,20 @@
+export type UnitType =
+  | 'meters'
+  | 'centimeters'
+  | 'grams'
+  | 'kilograms'
+  | 'tons';
+
+export type LoadType = 'full' | 'complement' | 'full_complement';
+
 export interface ILoad {
   title: string;
   height: string;
   width: string;
   length: string;
-  dimensionsUnit: string | null;
+  dimensionsUnit: UnitType | null;
   weight: string;
-  weightUnit: string | null;
+  weightUnit: UnitType | null;
   description: string;
   price: string;
   fullLoad: boolean;
@@ -51,9 +60,9 @@ export interface IGetLoadResponse {
   length: number;
   width: number;
   height: number;
-  dimensionsUnit: string;
+  dimensionsUnit: UnitType;
   weight: number;
-  weightUnit: string;
+  weightUnit: UnitType;
   description: string;
   pickupAddressId: string;
   pickupAddress: ILoadAddress;
@@ -77,9 +86,9 @@ export interface IGetCloseLoadResponse {
   length: number;
   width: number;
   height: number;
-  dimensionsUnit: string;
+  dimensionsUnit: UnitType;
   weight: number;
-  weightUnit: string;
+  weightUnit: UnitType;
   description: string;
   pickupAddressId: string;
   pickupAddress: ILoadAddress;
@@ -103,9 +112,9 @@ export interface ILoadData {
   length: number;
   width: number;
   height: number;
-  dimensionsUnit: string;
+  dimensionsUnit: UnitType;
   weight: number;
-  weightUnit: string;
+  weightUnit: UnitType;
   description: string;
   pickupAddress: ILoadAddress;
   pickupDate: string;
@@ -125,9 +134,9 @@ export interface ILoadDataCard {
   length: number;
   width: number;
   height: number;
-  dimensionsUnit: string;
+  dimensionsUnit: UnitType;
   weight: number;
-  weightUnit: string;
+  weightUnit: UnitType;
   description: string;
   pickupAddress: ILoadAddress;
   pickupDate: string;

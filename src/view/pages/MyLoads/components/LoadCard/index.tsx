@@ -3,6 +3,7 @@ import { Card } from './styles';
 import { formatPrice } from '../../../../../utils/formatPrice';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { renderLoadTypes } from '../../../../../utils/renderLoadTypes';
 
 interface LoadCardProps {
   loadImage: string;
@@ -10,8 +11,10 @@ interface LoadCardProps {
   createdAt: string;
   pickupCity: string;
   deliveryCity: string;
-  description: string;
+  title: string;
+  description?: string;
   type: string;
+  handleClick: () => void;
 }
 
 export function LoadCard({
@@ -20,8 +23,10 @@ export function LoadCard({
   createdAt,
   pickupCity,
   deliveryCity,
-  description,
+  title,
   type,
+  description,
+  handleClick,
 }: LoadCardProps) {
   const date = new Date(createdAt);
 
@@ -30,8 +35,8 @@ export function LoadCard({
   }).replace('cerca de', 'há');
 
   return (
-    <Card>
-      <img src={loadImage} alt={description} />
+    <Card onClick={handleClick}>
+      <img src={loadImage} alt={title} />
       <div className="content">
         <h5>{formatPrice(price)}</h5>
         <small>{dateFormatted}</small>
@@ -42,11 +47,9 @@ export function LoadCard({
           <span>{deliveryCity}</span>
         </div>
 
-        <strong>{description}</strong>
+        <strong>{title || description}</strong>
 
-        <div className="tags">
-          <span>{type}</span>
-        </div>
+        <div className="tags">{renderLoadTypes(type)}</div>
         <div className="line"></div>
       </div>
     </Card>

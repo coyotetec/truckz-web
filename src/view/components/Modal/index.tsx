@@ -8,9 +8,17 @@ interface ModalProps {
   children: React.ReactNode;
   visible: boolean;
   onClose?: () => void;
+  style?: React.CSSProperties;
+  closeIconColor?: string;
 }
 
-export function Modal({ children, visible, onClose }: ModalProps) {
+export function Modal({
+  children,
+  visible,
+  onClose,
+  style,
+  closeIconColor,
+}: ModalProps) {
   const theme = useTheme();
 
   if (!visible) {
@@ -21,10 +29,14 @@ export function Modal({ children, visible, onClose }: ModalProps) {
     <ReactPortal wrapperId="modal-root">
       <Wrapper>
         <Overlay onClick={onClose} />
-        <Container>
+        <Container style={style}>
           {onClose && (
             <button type="button" className="close-button" onClick={onClose}>
-              <X size={24} color={theme.colors.white[700]} weight="bold" />
+              <X
+                size={24}
+                color={closeIconColor || theme.colors.white[700]}
+                weight="bold"
+              />
             </button>
           )}
           {children}
