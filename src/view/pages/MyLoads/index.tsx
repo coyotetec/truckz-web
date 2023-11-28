@@ -15,13 +15,13 @@ export function MyLoads() {
 
   const navigate = useNavigate();
   useEffect(() => {
-    async function LoadsData() {
+    async function loadsData() {
       const data = await getContractorLoads();
       setLoads(data);
       setIsLoading(false);
     }
 
-    LoadsData();
+    loadsData();
   }, []);
   return (
     <Container>

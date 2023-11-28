@@ -1,40 +1,47 @@
-import { Container, Wrapper } from './styles';
-import { IMaskInput } from 'react-imask';
+import { IMask, IMaskInput } from 'react-imask';
+import { Container, Wrapper } from '../MaskInput/styles';
+const dateOptions = {
+  d: {
+    mask: IMask.MaskedRange,
+    from: 1,
+    to: 31,
+    maxLength: 2,
+  },
+  m: {
+    mask: IMask.MaskedRange,
+    from: 1,
+    to: 12,
+    maxLength: 2,
+  },
+  YYYY: {
+    mask: IMask.MaskedRange,
+    from: 1900,
+    to: 9999,
+  },
+};
 
-interface MaskInputProps {
+interface MaskDateInputProps {
   name?: string;
   label?: string;
   wrapperStyle?: React.CSSProperties;
   placeholder?: string;
   mask: any;
-  scale?: number;
   error?: string;
   value?: string;
   onChange?: (value: string) => void;
-  thousandsSeparator?: string;
-  radix?: string;
-  nomalizeZeros?: boolean;
-  padFractionalZeros?: boolean;
-  min?: number;
-  max?: number;
-  blocksOptions?: any;
+  pattern?: string;
 }
 
-export function MaskInput({
-  name,
-  label,
+export function MaskDateInput({
   wrapperStyle,
-  placeholder,
+  label,
+  name,
   mask,
-  scale,
-  error,
+  placeholder,
   value,
   onChange,
-  min,
-  max,
-  radix = ',',
-  blocksOptions,
-}: MaskInputProps) {
+  error,
+}: MaskDateInputProps) {
   return (
     <Wrapper style={wrapperStyle}>
       {label && <label htmlFor={name}>{label}</label>}
@@ -43,13 +50,10 @@ export function MaskInput({
           id={name}
           placeholder={placeholder}
           mask={mask}
-          scale={scale}
           value={value}
           onAccept={(value) => (onChange ? onChange(value) : null)}
-          min={min}
-          max={max}
-          radix={radix}
-          blocks={blocksOptions}
+          pattern="d`/m`/00000"
+          blocks={dateOptions}
         />
       </Container>
       {error && <span className="error">{error}</span>}

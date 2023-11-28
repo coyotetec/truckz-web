@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import check from '../../../../../assets/icons/check.svg';
 
 export const DataLoadContainer = styled.div`
   max-width: 496px;
@@ -7,7 +8,45 @@ export const DataLoadContainer = styled.div`
   form {
     padding-top: 1rem;
 
-    .dimensions-load {
+    .load-type {
+      margin-top: 12px;
+      display: flex;
+      flex-wrap: wrap;
+
+      label {
+        display: flex;
+        align-self: center;
+        font-size: 18px;
+        font-weight: 400;
+        cursor: pointer;
+        margin-right: 1rem;
+      }
+
+      input[type='checkbox'] {
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        background-color: ${({ theme }) => theme.colors.black[200]};
+        border-radius: 4px;
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+      }
+
+      input[type='checkbox']:checked {
+        background-color: ${({ theme }) => theme.colors.primary[400]};
+        background-image: url(${check});
+        background-position: center;
+      }
+
+      .error {
+        font-size: 12px;
+        font-weight: 600;
+        color: ${({ theme }) => theme.colors.complementary.red[500]};
+      }
+    }
+
+    .load-dimensions {
       display: flex;
       align-items: end;
       gap: 0.5rem;
@@ -15,9 +54,9 @@ export const DataLoadContainer = styled.div`
     }
 
     .weight-load {
-      padding: 0.75rem 0;
+      padding: 0.75 0;
       display: flex;
-      align-items: end;
+      align-items: center;
       gap: 0.5rem;
 
       input {

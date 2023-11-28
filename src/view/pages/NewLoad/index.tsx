@@ -1,11 +1,66 @@
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Container, Content } from './styles';
-import { DataLoad } from './components/DataLoad';
-import { PickupAndDelivery } from './components/PickupAndDelivery';
-import { ArrowLeft } from '@phosphor-icons/react';
+import { LoadData, LoadDataRefType } from './components/LoadData';
+import {
+  PickupAndDelivery,
+  PickupAndDeliveryRefType,
+} from './components/PickupAndDelivery';
+import { ArrowLeft, Check } from '@phosphor-icons/react';
+import { Button } from '../../components/Button';
+import { loadSchema, addressSchema } from './schemas';
+import { formErrorType } from '../../../types/global';
+import { formatZodErrors } from '../../../utils/formatZodErrors';
+import { createLoad } from '../../../services/load';
+import { IAddressResponse } from '../../../types/address';
+import { getAddresses } from '../../../services/addresses';
 
 export function NewLoad() {
   const navigate = useNavigate();
+  const loadDataRef = useRef<LoadDataRefType>(null);
+  const pickupAndDeliveryRef = useRef<PickupAndDeliveryRefType>(null);
+  const [loadDataFormErrors, setLoadDataFormErrors] =
+    useState<formErrorType>(null);
+  const [pickupAndDeliveryFormErrors, setPickupAndDeliveryFormErrors] =
+    useState<formErrorType>(null);
+  const [addresses, setAddresses] = useState<IAddressResponse[] | undefined>(
+    [],
+  );
+
+  async function handleSubmit() {
+    const loadData = loadDataRef.current?.getData();
+    const pickupAndDeliveryData = pickupAndDeliveryRef.current?.getData();
+
+    const loadDataValidation = loadSchema.safeParse(loadData);
+
+    const pickupAndDeliveryValidation = addressSchema.safeParse(
+      pickupAndDeliveryData,
+    );
+
+    if (!loadDataValidation.success) {
+      return setLoadDataFormErrors(formatZodErrors(loadDataValidation.error));
+    }
+
+    if (!pickupAndDeliveryValidation.success) {
+      return setPickupAndDeliveryFormErrors(
+        formatZodErrors(pickupAndDeliveryValidation.error),
+      );
+    }
+
+    setLoadDataFormErrors(null);
+    setPickupAndDeliveryFormErrors(null);
+    loadData &&
+      pickupAndDeliveryData &&
+      (await createLoad({ loadData, addressData: pickupAndDeliveryData }));
+  }
+
+  useEffect(() => {
+    async function getAddressesData() {
+      const data = await getAddresses();
+      setAddresses(data);
+    }
+    getAddressesData();
+  }, []);
 
   return (
     <Container>
@@ -17,9 +72,20 @@ export function NewLoad() {
         </div>
       </header>
       <Content>
-        <DataLoad />
-        <PickupAndDelivery />
+        <LoadData ref={loadDataRef} formErrors={loadDataFormErrors} />
+        <PickupAndDelivery
+          ref={pickupAndDeliveryRef}
+          formErrors={pickupAndDeliveryFormErrors}
+          addresses={addresses}
+        />
       </Content>
+      <Button
+        style={{ width: '496px', margin: '1.5rem auto' }}
+        onClick={() => handleSubmit()}
+      >
+        <Check size={24} />
+        Criar Carga
+      </Button>
     </Container>
   );
 }
