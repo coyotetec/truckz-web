@@ -32,7 +32,7 @@ export function Select({
       <Container>
         <select id={name} {...rest}>
           {placeholder && (
-            <option value="_" disabled>
+            <option value="_" disabled hidden>
               {placeholder}
             </option>
           )}

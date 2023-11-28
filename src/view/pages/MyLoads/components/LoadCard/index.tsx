@@ -1,27 +1,51 @@
 import { ArrowRight } from '@phosphor-icons/react';
 import { Card } from './styles';
-import loads from '../../../../../assets/images/loads.jpg';
-import { formatValue } from '../../../../../utils/formatValue';
+import { formatPrice } from '../../../../../utils/formatPrice';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
-export function LoadCard() {
+interface LoadCardProps {
+  loadImage: string;
+  price: number;
+  createdAt: string;
+  pickupCity: string;
+  deliveryCity: string;
+  description: string;
+  type: string;
+}
+
+export function LoadCard({
+  loadImage,
+  price,
+  createdAt,
+  pickupCity,
+  deliveryCity,
+  description,
+  type,
+}: LoadCardProps) {
+  const date = new Date(createdAt);
+
+  const dateFormatted = formatDistanceToNow(date, {
+    locale: ptBR,
+  }).replace('cerca de', 'há');
+
   return (
     <Card>
-      <img src={loads} alt="" />
+      <img src={loadImage} alt={description} />
       <div className="content">
-        <h5>{formatValue(400)}</h5>
-        <small>há 30 min.</small>
+        <h5>{formatPrice(price)}</h5>
+        <small>{dateFormatted}</small>
 
         <div className="local">
-          <span>Paragominas, PA</span>
-          <ArrowRight size={18} weight="bold" />
-          <span>Castanhal, PA</span>
+          <span>{pickupCity}</span>
+          <ArrowRight size={18} />
+          <span>{deliveryCity}</span>
         </div>
 
-        <strong>Caixas de papelão</strong>
+        <strong>{description}</strong>
 
         <div className="tags">
-          <span>Carga Completa</span>
-          <span>Complemento</span>
+          <span>{type}</span>
         </div>
         <div className="line"></div>
       </div>
