@@ -14,6 +14,7 @@ export function App() {
         <Toaster
           position="top-right"
           toastOptions={{
+            duration: 4000,
             style: {
               background: mainTheme.colors.black[100],
               color: mainTheme.colors.white[400],

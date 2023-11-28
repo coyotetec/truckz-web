@@ -32,7 +32,7 @@ export const Card = styled.div`
     }
   }
 
-  button {
+  a {
     display: flex;
     padding: 0.25rem;
     background-color: ${({ theme }) => theme.colors.primary[400]};

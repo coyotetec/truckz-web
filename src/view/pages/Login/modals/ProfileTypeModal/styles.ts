@@ -4,10 +4,6 @@ export const Content = styled.main`
   display: flex;
   flex-direction: column;
 
-  h5 {
-    font-weight: 600;
-  }
-
   p {
     font-size: 14px;
     margin-top: 4px;

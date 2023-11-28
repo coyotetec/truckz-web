@@ -9,9 +9,13 @@ export const Card = styled.div`
 
   header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.25rem;
     margin-bottom: 0.25rem;
+
+    span {
+      font-weight: 600;
+    }
   }
 
   strong {
@@ -20,17 +24,26 @@ export const Card = styled.div`
     line-height: 145%;
   }
 
+  .actions {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+  }
+
   button {
     display: flex;
     padding: 0.25rem;
-    background-color: ${({ theme }) => theme.colors.white[800]};
+    background: ${({ theme }) => theme.colors.white[800]};
     outline: none;
     border: none;
     border-radius: 4px;
     color: ${({ theme }) => theme.colors.white[400]};
-    position: absolute;
-    right: 8px;
-    bottom: 8px;
+
+    &.delete {
+      background: ${({ theme }) => theme.colors.complementary.red[500]};
+    }
 
     &:active {
       opacity: 0.8;
