@@ -78,6 +78,7 @@ export function MyLoads() {
             return (
               <LoadCard
                 key={load.id}
+                id={load.id}
                 loadImage={load.loadImages[0]}
                 price={load.price}
                 createdAt={load.createdAt}

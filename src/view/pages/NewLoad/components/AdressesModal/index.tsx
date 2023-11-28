@@ -4,6 +4,7 @@ import {
   ISelectedAddress,
 } from '../../../../../types/address';
 import { Container, Address } from './styles';
+import { formatAddress } from '../../../../../utils/formatAdress';
 
 interface AddressesModalProps {
   visible: boolean;
@@ -40,7 +41,7 @@ export function AdressesModal({
               }}
             >
               <h5>{name}</h5>
-              <small>{`${address}, ${number}, ${district}`}</small>
+              <small>{formatAddress(address, number, district)}</small>
               <p>{`${city}, ${state}`}</p>
             </Address>
           ),

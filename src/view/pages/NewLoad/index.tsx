@@ -52,9 +52,11 @@ export function NewLoad() {
 
     setLoadDataFormErrors(null);
     setPickupAndDeliveryFormErrors(null);
+
     loadData &&
       pickupAndDeliveryData &&
       (await createLoad({ loadData, addressData: pickupAndDeliveryData }));
+
     setTimeout(() => {
       setIsLoading(false);
       navigate('/loads');
@@ -89,9 +91,9 @@ export function NewLoad() {
       </Content>
       <Button
         style={{ width: '496px', margin: '1.5rem auto' }}
-        onClick={() => handleSubmit()}
+        onClick={handleSubmit}
       >
-        <Check size={24} />
+        <Check size={24} weight="bold" />
         Criar Carga
       </Button>
     </Container>

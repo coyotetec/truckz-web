@@ -25,27 +25,13 @@ export async function getContractorLoads() {
     }
   }
 }
-type LoadData = {
-  images: File[];
-  title: string;
-  dimensionsUnit: string;
-  height: string;
-  width: string;
-  length: string;
-  weight: string;
-  weightUnit: string;
-  description: string;
-  price: string;
-  fullLoad: boolean;
-  complementLoad: boolean;
-};
+
 interface CreateLoadArgs {
-  loadData: LoadData;
+  loadData: ILoad;
   addressData: IAddress;
 }
 
 export async function createLoad({ loadData, addressData }: CreateLoadArgs) {
-  console.log(loadData);
   try {
     const token = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
     const formData = new FormData();
@@ -62,7 +48,6 @@ export async function createLoad({ loadData, addressData }: CreateLoadArgs) {
         ),
       ),
     );
-    console.log(formData.get('price'));
     formData.append(
       'type',
       validateLoadType(loadData.fullLoad, loadData.complementLoad) || '',
@@ -135,9 +120,10 @@ export async function createLoad({ loadData, addressData }: CreateLoadArgs) {
       );
     }
 
-    loadData.images.forEach((image) => {
-      formData.append('images', image);
-    });
+    loadData.loadImages &&
+      loadData.loadImages.forEach((image) => {
+        formData.append('images', image);
+      });
 
     const { data } = await api.post('/loads', formData, {
       headers: {

@@ -7,6 +7,8 @@ import { DataLoadContainer, PreviewImages } from './styles.ts';
 import xCircle from '../../../../../assets/icons/xCircle.svg';
 import { MaskInput } from '../../../../components/MaskInput/index.tsx';
 import { formErrorType } from '../../../../../types/global';
+import { UnitType } from '../../../../../types/load';
+import { ILoadResponseUpdate } from '../../../UpdateLoad/index.tsx';
 
 interface IDimensionsData {
   lengthLoad: string;
@@ -20,19 +22,20 @@ interface LoadDataProps {
 
 export type LoadDataRefType = {
   getData: () => {
-    images: File[];
+    loadImages: File[];
     title: string;
-    dimensionsUnit: string;
+    dimensionsUnit: UnitType;
     height: string;
     width: string;
     length: string;
     weight: string;
-    weightUnit: string;
+    weightUnit: UnitType;
     description: string;
     price: string;
     fullLoad: boolean;
     complementLoad: boolean;
   };
+  setData: (loadData: ILoadResponseUpdate) => void;
 };
 
 const weightOptions = [
@@ -62,19 +65,19 @@ const curreuncyMaskOptions = {
 
 export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
   ({ formErrors }: LoadDataProps, ref) => {
-    const [images, setImages] = useState<File[]>([]);
+    const [loadImages, setLoadImages] = useState<File[]>([]);
     const [title, setTitle] = useState<string>('');
     const [price, setPrice] = useState<string>('');
     const [fullLoad, setFullLoad] = useState(false);
     const [complementLoad, setComplementLoad] = useState(false);
-    const [dimensionsUnit, setDimensionsUnit] = useState<string>('meters');
+    const [dimensionsUnit, setDimensionsUnit] = useState<UnitType>('meters');
     const [dimensions, setDimensions] = useState<IDimensionsData>({
       lengthLoad: '',
       width: '',
       height: '',
     });
     const [weight, setWeight] = useState<string>('');
-    const [weightUnit, setWeightUnit] = useState<string>('kilograms');
+    const [weightUnit, setWeightUnit] = useState<UnitType>('kilograms');
     const [description, setDescription] = useState<string>('');
 
     function handleDimensionsChange(
@@ -88,7 +91,7 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
       ref,
       () => ({
         getData: () => ({
-          images,
+          loadImages,
           title,
           dimensionsUnit,
           height: dimensions.height,
@@ -101,9 +104,45 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
           fullLoad,
           complementLoad,
         }),
+        setData: ({
+          loadImages,
+          title,
+          dimensionsUnit,
+          length,
+          weight,
+          height,
+          width,
+          description,
+          price,
+          type,
+          weightUnit,
+        }: ILoadResponseUpdate) => {
+          setLoadImages(loadImages);
+          setTitle(title);
+          setDimensionsUnit(dimensionsUnit);
+          setDimensions({
+            lengthLoad: String(length),
+            height: String(height),
+            width: String(width),
+          });
+          setWeight(String(weight));
+          setWeightUnit(weightUnit);
+          setDescription(description);
+          setPrice(String(price));
+          if (type === 'full') {
+            setFullLoad(true);
+          }
+          if (type === 'complement') {
+            setComplementLoad(true);
+          }
+          if (type === 'full_complement') {
+            setFullLoad(true);
+            setComplementLoad(true);
+          }
+        },
       }),
       [
-        images,
+        loadImages,
         title,
         dimensionsUnit,
         dimensions,
@@ -201,7 +240,9 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
           </div>
           <Select
             value={dimensionsUnit}
-            onChange={({ target }) => setDimensionsUnit(target.value)}
+            onChange={({ target }) =>
+              setDimensionsUnit(target.value as UnitType)
+            }
             options={dimensionOptions}
           />
           <div className="weight-load">
@@ -225,7 +266,7 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
               }
               placeholder="Kg"
               value={weightUnit}
-              onChange={({ target }) => setWeightUnit(target.value)}
+              onChange={({ target }) => setWeightUnit(target.value as UnitType)}
               options={weightOptions}
             />
           </div>
@@ -245,34 +286,31 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
                   uuid(),
                   { type: file.type },
                 );
-
                 return newFile;
               });
 
-              setImages((prevState) => [...prevState, ...mappedFiles]);
+              setLoadImages((prevState) => [...prevState, ...mappedFiles]);
             }}
           />
           <PreviewImages>
-            {images?.map((image) => (
-              <>
-                <div key={image.name}>
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt={image.name}
-                    key={image.name}
-                  />
-                  <img
-                    src={xCircle}
-                    alt="Ícone com X para remover imagem"
-                    className="icon"
-                    onClick={() =>
-                      setImages(
-                        images.filter(({ name }) => name !== image.name),
-                      )
-                    }
-                  />
-                </div>
-              </>
+            {loadImages?.map((image) => (
+              <div key={image.name}>
+                <img
+                  src={URL.createObjectURL(image)}
+                  alt={image.name}
+                  key={image.name}
+                />
+                <img
+                  src={xCircle}
+                  alt="Ícone com X para remover imagem"
+                  className="icon"
+                  onClick={() =>
+                    setLoadImages(
+                      loadImages.filter(({ name }) => name !== image.name),
+                    )
+                  }
+                />
+              </div>
             ))}
           </PreviewImages>
         </form>

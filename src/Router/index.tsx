@@ -12,6 +12,7 @@ import { AuthGuard } from './AuthGuard';
 import { NewLoad } from '../view/pages/NewLoad';
 import { NewAddress } from '../view/pages/NewAddress';
 import { UpdateAddress } from '../view/pages/UpdateAddress';
+import { UpdateLoad } from '../view/pages/UpdateLoad';
 
 export function Router() {
   return (
@@ -27,7 +28,7 @@ export function Router() {
             <Route path="/" element={<Navigate to="/loads" />} />
             <Route path="/loads" element={<MyLoads />} />
             <Route path="/loads/new" element={<NewLoad />} />
-            {/* <Route path="/loads/update" element={<NewLoad />} /> */}
+            <Route path="/loads/update/:id" element={<UpdateLoad />} />
             <Route path="/drivers" element={<DriversNear />} />
             <Route path="/addresses" element={<Addresses />} />
             <Route path="addresses/new" element={<NewAddress />} />

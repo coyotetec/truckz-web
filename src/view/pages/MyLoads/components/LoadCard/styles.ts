@@ -81,4 +81,20 @@ export const Card = styled.div`
       width: 6px;
     }
   }
+
+  button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    outline: none;
+    border-radius: 4px;
+    color: ${({ theme }) => theme.colors.white[400]};
+    background-color: ${({ theme }) => theme.colors.white[800]};
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    bottom: 8px;
+    right: 16px;
+  }
 `;
