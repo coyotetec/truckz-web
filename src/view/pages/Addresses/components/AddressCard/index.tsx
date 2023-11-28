@@ -1,6 +1,7 @@
 import { House, NotePencil, Trash } from '@phosphor-icons/react';
 import { Card } from './styles';
 import { IAddressResponse } from '../../../../../types/address';
+import { useNavigate } from 'react-router-dom';
 
 interface AddressCardProps {
   data: IAddressResponse;
@@ -8,6 +9,8 @@ interface AddressCardProps {
 }
 
 export function AddressCard({ data, onDelete }: AddressCardProps) {
+  const navigate = useNavigate();
+  
   return (
     <Card>
       <header>
@@ -23,7 +26,7 @@ export function AddressCard({ data, onDelete }: AddressCardProps) {
         {data.city}, {data.state}
       </p>
       <div className="actions">
-        <button>
+        <button onClick={() => navigate(`/addresses/update/${id}`)}>
           <NotePencil size={18} weight="bold" />
         </button>
         {data.name !== 'Endereço Principal' && (

@@ -29,7 +29,11 @@ export function MyLoads() {
         <div className="left-side">
           <div>
             <h1>Cargas Criadas</h1>
-            <p>{`Você possui ${loads?.length}`} cargas</p>
+            {loads ? (
+              <p>{`Você possui ${loads.length}`} cargas</p>
+            ) : (
+              <p>Você ainda não possui cargas cadastradas</p>
+            )}
           </div>
           <Select
             options={[
@@ -40,10 +44,7 @@ export function MyLoads() {
             wrapperStyle={{ width: 240 }}
           />
         </div>
-        <Button
-          style={{ width: 220 }}
-          onClick={() => navigate('/loads/new', { replace: true })}
-        >
+        <Button style={{ width: 220 }} onClick={() => navigate('/loads/new')}>
           <Plus size={20} weight="bold" />
           Criar Carga
         </Button>

@@ -1,11 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Plus } from '@phosphor-icons/react';
 import { Button } from '../../components/Button';
 import { AddressesContainer, Container } from './styles';
 import { AddressCard } from './components/AddressCard';
-import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Loader } from '../../components/Loader';
 import { IAddressResponse } from '../../../types/address';
 import { getAddresses } from '../../../services/addresses';
-import { Loader } from '../../components/Loader';
 import { ConfirmDeleteModal } from './modals/ConfirmDeleteModal';
 
 export function Addresses() {
@@ -15,6 +16,7 @@ export function Addresses() {
   const [addresses, setAddresses] = useState<IAddressResponse[]>([]);
   const [selectedAddress, setSelectedAddress] =
     useState<IAddressResponse | null>(null);
+  const navigate = useNavigate();
 
   function handleDeleteAddress(address: IAddressResponse) {
     setSelectedAddress(address);
@@ -64,12 +66,16 @@ export function Addresses() {
             addresses.length === 1 ? 'motorista' : 'motoristas'
           }`}</p>
         </div>
-        <Button style={{ width: 220 }}>
+        <Button
+          style={{ width: 220 }}
+          onClick={() => navigate('/addresses/new')}
+        >
           <Plus size={20} weight="bold" />
           Criar endereço
         </Button>
       </header>
       <AddressesContainer>
+        <Loader visible={isLoading} />
         {addresses.map((address) => (
           <AddressCard
             key={address.id}

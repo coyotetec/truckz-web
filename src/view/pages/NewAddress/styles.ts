@@ -18,13 +18,15 @@ export const Container = styled.main`
     h1 {
       margin-bottom: 0.25rem;
     }
-  }
-`;
 
-export const Content = styled.div`
-  display: grid;
-  grid-template-columns: 2fr 2fr;
-  gap: 1.25rem;
-  max-width: 1012px;
-  padding-top: 1.5rem;
+    p {
+      color: ${({ theme }) => theme.colors.white[700]};
+    }
+  }
+
+  button {
+    margin: 0 auto;
+    margin-top: 3rem;
+    width: 31rem;
+  }
 `;
