@@ -1,43 +1,40 @@
-import { House, NotePencil } from '@phosphor-icons/react';
+import { House, NotePencil, Trash } from '@phosphor-icons/react';
 import { Card } from './styles';
-import { formatAddress } from '../../../../../utils/formatAdress';
+import { IAddressResponse } from '../../../../../types/address';
 import { useNavigate } from 'react-router-dom';
 
 interface AddressCardProps {
-  id: string;
-  name: string;
-  address: string;
-  number?: number | undefined;
-  district: string;
-  city: string;
-  state: string;
+  data: IAddressResponse;
+  onDelete: (address: IAddressResponse) => void;
 }
 
-export function AddressCard({
-  id,
-  address,
-  city,
-  district,
-  name,
-  state,
-  number,
-}: AddressCardProps) {
+export function AddressCard({ data, onDelete }: AddressCardProps) {
   const navigate = useNavigate();
-
+  
   return (
     <Card>
       <header>
-        <h5>{name}</h5>
-        {name === 'Endereço Principal' && <House weight="fill" size={20} />}
+        <span className="name">{data.name}</span>
+        {data.name === 'Endereço Principal' && (
+          <House weight="fill" size={20} />
+        )}
       </header>
-      <strong>{formatAddress(address, number, district)}</strong>
-      <p>{`${city}, ${state}`}</p>
-      <button
-        className="editIcon"
-        onClick={() => navigate(`/addresses/update/${id}`)}
-      >
-        <NotePencil size={18} weight="bold" />
-      </button>
+      <strong>
+        {data.address}, {data.number || 'S/N'}
+      </strong>
+      <p>
+        {data.city}, {data.state}
+      </p>
+      <div className="actions">
+        <button onClick={() => navigate(`/addresses/update/${id}`)}>
+          <NotePencil size={18} weight="bold" />
+        </button>
+        {data.name !== 'Endereço Principal' && (
+          <button className="delete" onClick={() => onDelete(data)}>
+            <Trash size={18} weight="bold" />
+          </button>
+        )}
+      </div>
     </Card>
   );
 }

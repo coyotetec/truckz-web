@@ -2,19 +2,27 @@ import { Card } from './styles';
 
 import user from '../../../../../assets/images/user-placeholder.png';
 import { WhatsappIcon } from '../../../../components/icons/WhatsappIcon';
+import { IGetDriversNearResponse } from '../../../../../types/driver';
+import { Link } from 'react-router-dom';
 
-export function DriverCard() {
+interface DriverCardProps {
+  data: IGetDriversNearResponse;
+}
+
+export function DriverCard({ data }: DriverCardProps) {
   return (
     <Card>
-      <img src={user} alt="Foto do usuário" />
+      <img src={data.avatarUrl || user} alt="Foto do usuário" />
       <small>há 8 horas</small>
       <div>
-        <strong>João da silva</strong>
-        <span>Paragominas, PA</span>
+        <strong>{data.fullName}</strong>
+        <span>
+          {data.city}, {data.state}
+        </span>
       </div>
-      <button>
+      <Link to={`https://wa.me/55${data.whatsappNumber}`} target="_blank">
         <WhatsappIcon />
-      </button>
+      </Link>
     </Card>
   );
 }

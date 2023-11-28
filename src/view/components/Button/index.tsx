@@ -3,6 +3,7 @@ import { Container } from './styles';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   secondary?: boolean;
+  danger?: boolean;
 }
 
 export function Button({ children, ...rest }: ButtonProps) {

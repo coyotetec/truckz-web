@@ -132,3 +132,30 @@ export async function updateAddress(
     }
   }
 }
+
+export async function deleteAddress(id: string) {
+  try {
+    const token = localStorage.getItem(localStorageKeys.AUTH_TOKEN);
+    await api.delete<IAddressResponse>(`/addresses/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  } catch (err) {
+    if (err instanceof AxiosError) {
+      if (err.response?.status === 400) {
+        const error = err.response.data.error as string;
+
+        if (error === "you can't delete this address") {
+          throw new APIError(
+            'Você não pode deletar este endereço, ele já está em uso',
+          );
+        }
+      }
+
+      if (err.response?.status === 500) {
+        throw new APIError('Problemas no servidor, tente novamente mais tarde');
+      }
+    }
+  }
+}

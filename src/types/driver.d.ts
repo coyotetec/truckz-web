@@ -10,4 +10,5 @@ export interface IGetDriversNearResponse {
   fullName: string;
   phoneNumber: string;
   whatsappNumber: string;
+  avatarUrl?: string;
 }
