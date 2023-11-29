@@ -1,4 +1,11 @@
-import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { Input } from '../Input';
 import { MaskInput } from '../MaskInput';
 import { Select } from '../Select';
@@ -8,6 +15,7 @@ import { formErrorType } from '../../../types/global';
 import { statesOptions } from '../../../utils/statesOptions';
 import { IAddressResponse } from '../../../types/address';
 import { formatCamelCase } from '../../../utils/formatCamelCase';
+import axios from 'axios';
 
 interface AddressFormProps {
   formErrors: formErrorType;
@@ -38,6 +46,7 @@ export const AddressForm = forwardRef<AddressFormRefType, AddressFormProps>(
     const [state, setState] = useState('_');
     const [city, setCity] = useState('_');
     const cities = useMemo(() => (state ? citiesOptions[state] : []), [state]);
+    const numberInputRef = useRef<HTMLInputElement | null>(null);
 
     useImperativeHandle(
       ref,
@@ -75,6 +84,25 @@ export const AddressForm = forwardRef<AddressFormRefType, AddressFormProps>(
       [name, zipcode, address, number, district, reference, state, city],
     );
 
+    useEffect(() => {
+      async function getAddressByZipcode(zipcode: string) {
+        const zipcodeFormatted = zipcode.replace('-', '');
+
+        if (zipcodeFormatted.length === 8) {
+          const { data } = await axios(
+            `https://viacep.com.br/ws/${zipcodeFormatted}/json/`,
+          );
+
+          setAddress(data.logradouro);
+          setDistrict(data.bairro);
+          setState(data.uf);
+          setCity(formatCamelCase(data.localidade));
+          numberInputRef && numberInputRef.current?.focus();
+        }
+      }
+      getAddressByZipcode(zipcode);
+    }, [zipcode, numberInputRef]);
+
     return (
       <div>
         <FormAddress onSubmit={(e) => e.preventDefault()}>
@@ -105,6 +133,7 @@ export const AddressForm = forwardRef<AddressFormRefType, AddressFormProps>(
           />
           <div className="number-district">
             <Input
+              refInput={numberInputRef}
               name="number"
               label="Número"
               placeholder="Número"
