@@ -51,7 +51,7 @@ export function compareLoadDataObject(
     (file) => fileNamesLoadData?.includes(file.name),
   );
 
-  if (filteredLoadImages.length !== fileNamesLoadData?.length) {
+  if (filteredLoadImages.length !== loadResponse.loadImages?.length) {
     return true;
   }
 
