@@ -23,12 +23,14 @@ export const Overlay = styled.div`
 
 export const Container = styled.div`
   min-width: 480px;
+  max-width: 780px;
   background: ${({ theme }) => theme.colors.black[400]};
   z-index: 101;
   padding: 24px;
   border-radius: 8px;
   box-shadow: 0px 4px 10px 1px hsla(0, 0%, 0%, 0.14);
   position: relative;
+  overflow: hidden;
 
   .close-button {
     display: flex;
@@ -37,5 +39,6 @@ export const Container = styled.div`
     position: absolute;
     top: 8px;
     right: 8px;
+    z-index: 999;
   }
 `;

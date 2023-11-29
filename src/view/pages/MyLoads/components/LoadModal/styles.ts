@@ -1,10 +1,46 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: ${({ theme }) => theme.colors.white[100]};
+    height: 100%;
+    width: 60px;
+    top: 20px;
+  }
+
+  .swiper-button-next {
+    background: linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0) 91.67%
+    );
+    right: 0;
+  }
+
+  .swiper-button-prev {
+    background: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.8) 0%,
+      rgba(0, 0, 0, 0) 91.67%
+    );
+    left: 0;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: ${({ theme }) => theme.colors.white[100]};
+  }
+
   .load-image {
-    height: 12.5rem;
+    height: 20rem;
     width: 100%;
     object-fit: cover;
+    cursor: pointer;
+  }
+
+  .load-image-expanded {
+    height: 100%;
+    width: 100%;
   }
 
   .buttons-container {
@@ -26,6 +62,7 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   display: grid;
+  justify-content: center;
   grid-template-columns: 327px 327px;
   padding: 1.25rem 1.5rem;
 

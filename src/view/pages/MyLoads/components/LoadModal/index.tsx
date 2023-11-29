@@ -1,11 +1,6 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Modal } from '../../../../components/Modal';
 import { ArrowRight, Check, X } from '@phosphor-icons/react';
-import {
-  DirectionsRenderer,
-  DirectionsService,
-  GoogleMap,
-} from '@react-google-maps/api';
 import { Container, Content } from './styles';
 import { IGetLoadResponse } from '../../../../../types/load';
 import { renderLoadTypes } from '../../../../../utils/renderLoadTypes';
@@ -15,6 +10,13 @@ import boxes from '../../../../../assets/images/boxes.svg';
 import { format } from 'date-fns';
 import { useTheme } from 'styled-components';
 import { Button } from '../../../../components/Button';
+import { Map } from '../../../NewLoad/components/Map';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination, Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
 interface LoadModalProps {
   loadData: IGetLoadResponse;
@@ -22,21 +24,12 @@ interface LoadModalProps {
   onClose: () => void;
 }
 
-type DirectionsRequest = google.maps.DirectionsRequest;
-
 export function LoadModal({ loadData, isVisible, onClose }: LoadModalProps) {
   const theme = useTheme();
   const [route, setRoute] = useState<google.maps.DirectionsResult | null>();
-  const options = useMemo(
-    () => ({
-      clickableIcons: false,
-      disableDefaultUI: true,
-      zoomControl: false,
-      draggable: false,
-      draggableCursor: 'default',
-    }),
-    [],
-  );
+  const [isOpenModalImg, setIsOpenModalImg] = useState(false);
+  const [imgToExpand, setImgToExpand] = useState('');
+
   const origin = useMemo<google.maps.LatLngLiteral>(
     () => ({
       lat: loadData.pickupAddress.latitude,
@@ -53,34 +46,6 @@ export function LoadModal({ loadData, isVisible, onClose }: LoadModalProps) {
     [loadData.deliveryAddress.latitude, loadData.deliveryAddress.longitude],
   );
 
-  const direcetionsServiceOptions = useMemo<DirectionsRequest>(() => {
-    return {
-      origin: origin || '',
-      destination: destination || '',
-      travelMode: google.maps.TravelMode.DRIVING,
-    };
-  }, [origin, destination]);
-
-  const directionsCallback = useCallback(
-    (
-      result: google.maps.DirectionsResult | null,
-      status: google.maps.DirectionsStatus,
-    ) => {
-      if (result !== null && status === 'OK') {
-        setRoute(result);
-      } else {
-        console.log(result, status);
-      }
-    },
-    [setRoute],
-  );
-
-  const directionsRendererOptions = useMemo(() => {
-    return {
-      directions: route,
-    };
-  }, [route]);
-
   return (
     <Modal
       visible={isVisible}
@@ -89,11 +54,46 @@ export function LoadModal({ loadData, isVisible, onClose }: LoadModalProps) {
       closeIconColor={theme.colors.white[100]}
     >
       <Container>
-        <img
-          className="load-image"
-          src={loadData.loadImages[0]}
-          alt={loadData.description}
-        />
+        <Modal
+          visible={isOpenModalImg}
+          onClose={() => setIsOpenModalImg(!isOpenModalImg)}
+          style={{
+            padding: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            minWidth: 'auto',
+            maxWidth: 'auto',
+          }}
+          closeIconColor={theme.colors.white[100]}
+        >
+          <img
+            className="load-image-expanded"
+            src={imgToExpand}
+            alt={loadData.description}
+          />
+        </Modal>
+        <Swiper
+          slidesPerView={1}
+          spaceBetween={30}
+          loop={true}
+          pagination={{ clickable: true }}
+          navigation={true}
+          modules={[Pagination, Navigation]}
+        >
+          {loadData.loadImages.map((img) => (
+            <SwiperSlide key={img}>
+              <img
+                className="load-image"
+                src={img}
+                alt={loadData.description}
+                onClick={() => {
+                  setIsOpenModalImg(!isOpenModalImg);
+                  setImgToExpand(img);
+                }}
+              />
+            </SwiperSlide>
+          ))}
+        </Swiper>
         <Content>
           <div>
             {renderLoadTypes(loadData.type)}
@@ -128,22 +128,12 @@ export function LoadModal({ loadData, isVisible, onClose }: LoadModalProps) {
               <ArrowRight size={20} weight="bold" />
               <small className="city">{loadData.deliveryAddress.city}</small>
             </div>
-            <GoogleMap
-              center={origin}
-              zoom={10}
-              mapContainerStyle={{
-                width: '100%',
-                height: '12.5rem',
-                borderRadius: '0.5rem',
-              }}
-              options={options}
-            >
-              <DirectionsService
-                options={direcetionsServiceOptions}
-                callback={directionsCallback}
-              />
-              <DirectionsRenderer options={directionsRendererOptions} />
-            </GoogleMap>
+            <Map
+              origin={origin}
+              destination={destination}
+              route={route || null}
+              setRoute={setRoute}
+            />
             <small className="date">
               {`A ser coletado até ${format(
                 new Date(loadData.pickupDate),

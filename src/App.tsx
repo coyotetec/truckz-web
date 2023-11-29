@@ -16,6 +16,7 @@ export function App() {
           googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
           libraries={libs}
           loadingElement={<Loader visible />}
+          region="BR"
         >
           <GlobalStyle />
           <Router />
