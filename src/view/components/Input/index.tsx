@@ -1,4 +1,4 @@
-import { InputHTMLAttributes, useState } from 'react';
+import { InputHTMLAttributes, LegacyRef, useState } from 'react';
 import { Container, Wrapper } from './styles';
 import { EyeSlash } from '@phosphor-icons/react';
 import { useTheme } from 'styled-components';
@@ -8,6 +8,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   wrapperStyle?: React.CSSProperties;
   error?: string;
+  refInput?: LegacyRef<HTMLInputElement>;
 }
 
 export function Input({
@@ -16,6 +17,7 @@ export function Input({
   type,
   wrapperStyle,
   error,
+  refInput,
   ...rest
 }: InputProps) {
   const [showPassword, setShowPassword] = useState(false);
@@ -26,6 +28,7 @@ export function Input({
       {label && <label htmlFor={name}>{label}</label>}
       <Container>
         <input
+          ref={refInput}
           id={name}
           type={type !== 'password' ? type : showPassword ? 'text' : 'password'}
           {...rest}
