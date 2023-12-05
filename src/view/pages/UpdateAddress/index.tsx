@@ -92,10 +92,3 @@ export function UpdateAddress() {
     </>
   );
 }
-
-// 1. setar o loading OK
-// 2. pegar o dados do formulário OK
-// 3. comparara se há alguma diferença entre os dados recebidos da API e os dados do formulário OK
-// 4. se houver diferença, validar dados e setar erros caso haja OK
-// 5. enviar dados para API
-// 6. se não ouver diferença, desligar o loaging e redirecionar para page de addresses OK

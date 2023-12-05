@@ -11,8 +11,10 @@ import {
 import { NotePencil } from '@phosphor-icons/react';
 import { extractGoogleMapsAddress } from '../../../../../utils/extractGoogleMapsAddress';
 import { formatAddress } from '../../../../../utils/formatAdress';
+import { formatDate } from '../../../../../utils/formatDate';
 import { MaskDateInput } from '../../../../components/MaskDateInput';
 import { formErrorType } from '../../../../../types/global';
+import { ILoadResponseUpdate } from '../../../UpdateLoad';
 
 interface PickupAndDeliveryProps {
   formErrors: formErrorType;
@@ -26,6 +28,7 @@ export type PickupAndDeliveryRefType = {
     pickupDate: string;
     deliveryDate: string;
   };
+  setData: (pickupAndDeliveryData: ILoadResponseUpdate) => void;
 };
 
 export const PickupAndDelivery = forwardRef(
@@ -131,6 +134,17 @@ export const PickupAndDelivery = forwardRef(
           pickupDate,
           deliveryDate,
         }),
+        setData: ({
+          pickupAddress,
+          pickupDate,
+          deliveryDate,
+          deliveryAddress,
+        }: ILoadResponseUpdate) => {
+          setPickupAddress(pickupAddress);
+          setPickupDate(formatDate(pickupDate));
+          setDeliveryAddress(deliveryAddress);
+          setDeliveryDate(formatDate(deliveryDate));
+        },
       }),
       [pickupAddress, deliveryAddress, pickupDate, deliveryDate],
     );

@@ -1,11 +1,13 @@
-import { ArrowRight } from '@phosphor-icons/react';
+import { ArrowRight, NotePencil } from '@phosphor-icons/react';
 import { Card } from './styles';
 import { formatPrice } from '../../../../../utils/formatPrice';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 import { renderLoadTypes } from '../../../../../utils/renderLoadTypes';
+import { useNavigate } from 'react-router-dom';
 
 interface LoadCardProps {
+  id: string;
   loadImage: string;
   price: number;
   createdAt: string;
@@ -18,6 +20,7 @@ interface LoadCardProps {
 }
 
 export function LoadCard({
+  id,
   loadImage,
   price,
   createdAt,
@@ -28,8 +31,9 @@ export function LoadCard({
   description,
   handleClick,
 }: LoadCardProps) {
-  const date = new Date(createdAt);
+  const navigate = useNavigate();
 
+  const date = new Date(createdAt);
   const dateFormatted = formatDistanceToNow(date, {
     locale: ptBR,
   }).replace('cerca de', 'há');
@@ -52,6 +56,9 @@ export function LoadCard({
         <div className="tags">{renderLoadTypes(type)}</div>
         <div className="line"></div>
       </div>
+      <button onClick={() => navigate(`/loads/update/${id}`)}>
+        <NotePencil size={20} />
+      </button>
     </Card>
   );
 }

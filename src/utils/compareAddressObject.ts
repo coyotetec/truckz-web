@@ -1,6 +1,6 @@
 import { IAddressResponse } from '../types/address';
 
-interface IAddressToUpdate {
+export interface IAddressToUpdate {
   name: string;
   zipcode?: string;
   address: string;

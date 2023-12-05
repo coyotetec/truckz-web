@@ -4,10 +4,11 @@ import {
   DirectionsRenderer,
 } from '@react-google-maps/api';
 import { useCallback, useMemo } from 'react';
+import { mapStyle } from './mapStyle';
 
 type Route = google.maps.DirectionsResult | null;
 interface MapProps {
-  onLoadMap: (map: google.maps.Map) => void;
+  onLoadMap?: (map: google.maps.Map) => void;
   origin: google.maps.LatLngLiteral | null;
   destination: google.maps.LatLngLiteral | null;
   route: google.maps.DirectionsResult | null;
@@ -37,6 +38,7 @@ export function Map({
       zoomControl: false,
       draggable: false,
       draggableCursor: 'default',
+      styles: mapStyle,
     }),
     [],
   );
@@ -72,7 +74,7 @@ export function Map({
   return (
     <>
       <GoogleMap
-        center={center}
+        center={origin || center}
         zoom={10}
         mapContainerStyle={{
           width: '100%',

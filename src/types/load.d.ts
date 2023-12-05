@@ -8,13 +8,14 @@ export type UnitType =
 export type LoadType = 'full' | 'complement' | 'full_complement';
 
 export interface ILoad {
+  loadImages?: File[];
   title: string;
   height: string;
   width: string;
   length: string;
-  dimensionsUnit: UnitType | null;
+  dimensionsUnit: UnitType | string;
   weight: string;
-  weightUnit: UnitType | null;
+  weightUnit: UnitType | string;
   description: string;
   price: string;
   fullLoad: boolean;
