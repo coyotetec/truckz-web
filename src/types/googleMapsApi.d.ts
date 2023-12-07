@@ -46,6 +46,7 @@ export interface IGeocodingResponse {
     types: string[];
   }[];
   status: string;
+  error_message?: string;
 }
 
 export interface IReverseGeocodingResponse {

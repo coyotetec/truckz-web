@@ -9,6 +9,8 @@ import { MaskInput } from '../../../../components/MaskInput/index.tsx';
 import { formErrorType } from '../../../../../types/global';
 import { UnitType } from '../../../../../types/load';
 import { ILoadResponseUpdate } from '../../../UpdateLoad/index.tsx';
+import { Checkbox } from '../../../../components/Checkbox/index.tsx';
+import { TextArea } from '../../../../components/TextArea/index.tsx';
 
 interface IDimensionsData {
   lengthLoad: string;
@@ -39,13 +41,13 @@ export type LoadDataRefType = {
 };
 
 const weightOptions = [
-  { value: 'grams', label: 'Gramas' },
-  { value: 'kilograms', label: 'Kilogramas' },
-  { value: 'tons', label: 'Toneladas' },
+  { value: 'grams', label: 'Gramas (g)' },
+  { value: 'kilograms', label: 'Kilogramas (Kg)' },
+  { value: 'tons', label: 'Toneladas (T)' },
 ];
 const dimensionOptions = [
-  { label: 'Metros', value: 'meters' },
-  { label: 'Centímetros', value: 'centimeters' },
+  { label: 'Metros (m)', value: 'meters' },
+  { label: 'Centímetros (cm)', value: 'centimeters' },
 ];
 
 const curreuncyMaskOptions = {
@@ -179,24 +181,18 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
           />
 
           <div className="load-type">
-            <label>
-              <input
-                type="checkbox"
-                value="full"
-                checked={fullLoad === true}
-                onChange={() => setFullLoad(!fullLoad)}
-              />
-              Carga completa
-            </label>
-            <label>
-              <input
-                type="checkbox"
-                value="complement"
-                checked={complementLoad === true}
-                onChange={() => setComplementLoad(!complementLoad)}
-              />
-              Complemento
-            </label>
+            <Checkbox
+              value="full"
+              checked={fullLoad}
+              onChange={() => setFullLoad((prevState) => !prevState)}
+              label="Carga completa"
+            />
+            <Checkbox
+              value="complement"
+              checked={complementLoad}
+              onChange={() => setComplementLoad((prevState) => !prevState)}
+              label="Complemento"
+            />
             {formErrors?.fullLoad && (
               <span className="error">{formErrors.fullLoad}</span>
             )}
@@ -271,11 +267,13 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
             />
           </div>
           <label>Descrição / Observações</label>
-          <textarea
+          <TextArea
+            name="description"
+            label="Descrição / Observações"
             placeholder="Descrição ou observações"
             value={description}
             onChange={({ target }) => setDescription(target.value)}
-          ></textarea>
+          />
           <label>Fotos da carga</label>
           <Dropzone
             message="Clique aqui ou arraste as fotos da carga"

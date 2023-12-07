@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
 export const PickupAndDeliveryContainer = styled.div`
-  max-width: 496px;
-  width: 100%;
-
   form {
     padding-top: 1rem;
 

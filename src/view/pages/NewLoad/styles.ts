@@ -15,16 +15,22 @@ export const Container = styled.main`
       color: ${({ theme }) => theme.colors.white[100]};
     }
 
-    h1 {
-      margin-bottom: 0.25rem;
+    p {
+      margin-top: 0.25rem;
+      color: ${({ theme }) => theme.colors.white[700]};
     }
+  }
+
+  > button {
+    width: 100%;
+    max-width: 496px;
+    margin: auto auto 0;
   }
 `;
 
 export const Content = styled.div`
   display: grid;
-  grid-template-columns: 2fr 2fr;
+  grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
-  max-width: 1012px;
-  padding-top: 1.5rem;
+  margin: 1.5rem 0 2.5rem;
 `;

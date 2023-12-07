@@ -23,8 +23,10 @@ import { createContractor } from '../../../services/contractor';
 import { ConcludedModal } from './modals/ConcludedModal';
 import toast from 'react-hot-toast';
 import { checkUsername } from '../../../services/user';
+import { Loader } from '../../components/Loader';
 
 export function ContractorSignUp() {
+  const [isLoading, setIsLoading] = useState(false);
   const [concludedModalVisible, setConcludedModalVisible] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [contractorData, setContractorData] = useState<IContractorData>({
@@ -58,12 +60,17 @@ export function ContractorSignUp() {
   const stepsTitles = ['Crie sua Conta', 'Endereço', 'Upload da Logo'];
 
   async function handleCheckUsername(value: string) {
-    if (value) {
-      const data = await checkUsername(value);
+    try {
+      if (value) {
+        setIsLoading(true);
+        const data = await checkUsername(value);
 
-      if (data) {
-        return data.available;
+        if (data) {
+          return data.available;
+        }
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -153,6 +160,7 @@ export function ContractorSignUp() {
 
   async function handleSubmit() {
     try {
+      setIsLoading(true);
       const imageLogo =
         image || (logoImageRef.current ? logoImageRef.current.getData() : null);
 
@@ -167,6 +175,8 @@ export function ContractorSignUp() {
       if (err instanceof APIError) {
         toast.error(err.message);
       }
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -197,6 +207,7 @@ export function ContractorSignUp() {
 
   return (
     <Container>
+      <Loader visible={isLoading} />
       <ConcludedModal visible={concludedModalVisible} />
       <main className="content">
         <h1>

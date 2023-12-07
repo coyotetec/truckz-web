@@ -11,7 +11,7 @@ import { Select } from '../../components/Select';
 import { LoadModal } from './components/LoadModal';
 
 export function MyLoads() {
-  const [loads, setLoads] = useState<IGetLoadResponse[]>();
+  const [loads, setLoads] = useState<IGetLoadResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentLoad, setCurrentLoad] = useState<
     IGetLoadResponse | undefined
@@ -27,7 +27,11 @@ export function MyLoads() {
   useEffect(() => {
     async function loadsData() {
       const data = await getContractorLoads();
-      setLoads(data);
+
+      if (data) {
+        setLoads(data);
+      }
+
       setIsLoading(false);
     }
 
@@ -48,11 +52,11 @@ export function MyLoads() {
           <div className="left-side">
             <div>
               <h1>Cargas Criadas</h1>
-              {loads ? (
-                <p>{`Você possui ${loads.length}`} cargas</p>
-              ) : (
-                <p>Você ainda não possui cargas cadastradas</p>
-              )}
+              <p>
+                {loads.length === 1
+                  ? 'Você possui 1 carga criada'
+                  : `Você possui ${loads.length} cargas criadas`}
+              </p>
             </div>
             <Select
               options={[

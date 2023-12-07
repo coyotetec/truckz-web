@@ -1,10 +1,21 @@
-import { forwardRef, useImperativeHandle, useMemo, useState } from 'react';
+import {
+  forwardRef,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { statesOptions } from '../../../../../utils/statesOptions';
 import { Input } from '../../../../components/Input';
 import { MaskInput } from '../../../../components/MaskInput';
 import { Select } from '../../../../components/Select';
 import { citiesOptions } from '../../../../../utils/citiesOptions';
 import { formErrorType } from '../../../../../types/global';
+import { IViacepData } from '../../../../../types/viacep';
+import axios from 'axios';
+import { formatCamelCase } from '../../../../../utils/formatCamelCase';
+import { Loader } from '../../../../components/Loader';
 
 export interface IAddressData {
   zipcode: string;
@@ -27,11 +38,13 @@ export type addressDataRefType = {
 
 export const AddressData = forwardRef<addressDataRefType, AddressDataProps>(
   ({ value, errors }, ref) => {
+    const [isLoading, setIsLoading] = useState(false);
     const [data, setData] = useState<IAddressData>(value);
     const cities = useMemo(
       () => (data.state ? citiesOptions[data.state] : []),
       [data.state],
     );
+    const numberInputRef = useRef<HTMLInputElement>(null);
 
     function handleDataChange(field: keyof IAddressData, value: string) {
       setData((prevState) => ({ ...prevState, [field]: value }));
@@ -43,8 +56,29 @@ export const AddressData = forwardRef<addressDataRefType, AddressDataProps>(
       },
     }));
 
+    useEffect(() => {
+      async function loadAddress() {
+        if (data.zipcode.length === 9) {
+          setIsLoading(true);
+          const response = await axios.get<IViacepData>(
+            `https://viacep.com.br/ws/${data.zipcode.replace('-', '')}/json/`,
+          );
+
+          handleDataChange('address', response.data.logradouro);
+          handleDataChange('district', response.data.bairro);
+          handleDataChange('state', response.data.uf);
+          handleDataChange('city', formatCamelCase(response.data.localidade));
+          numberInputRef && numberInputRef.current?.focus();
+          setIsLoading(false);
+        }
+      }
+
+      loadAddress();
+    }, [data.zipcode]);
+
     return (
       <>
+        <Loader visible={isLoading} />
         <MaskInput
           name="zipcode"
           label="CEP"
@@ -64,6 +98,7 @@ export const AddressData = forwardRef<addressDataRefType, AddressDataProps>(
         />
         <div className="grouped">
           <MaskInput
+            ref={numberInputRef}
             name="number"
             label="Número"
             placeholder="Número"

@@ -24,9 +24,9 @@ export const Container = styled.main`
     }
   }
 
-  button {
-    margin: 0 auto;
-    margin-top: 3rem;
-    width: 31rem;
+  > button {
+    width: 100%;
+    max-width: 496px;
+    margin: auto auto 0;
   }
 `;

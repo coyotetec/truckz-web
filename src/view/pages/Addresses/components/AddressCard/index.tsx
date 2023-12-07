@@ -10,7 +10,7 @@ interface AddressCardProps {
 
 export function AddressCard({ data, onDelete }: AddressCardProps) {
   const navigate = useNavigate();
-  
+
   return (
     <Card>
       <header>
@@ -26,7 +26,7 @@ export function AddressCard({ data, onDelete }: AddressCardProps) {
         {data.city}, {data.state}
       </p>
       <div className="actions">
-        <button onClick={() => navigate(`/addresses/update/${id}`)}>
+        <button onClick={() => navigate(`/addresses/update/${data.id}`)}>
           <NotePencil size={18} weight="bold" />
         </button>
         {data.name !== 'Endereço Principal' && (

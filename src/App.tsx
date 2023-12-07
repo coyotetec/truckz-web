@@ -6,7 +6,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { Toaster } from 'react-hot-toast';
 import { LoadScript } from '@react-google-maps/api';
 import { libs } from './utils/libsGoogle';
-import { Loader } from './view/components/Loader';
+import { SplashScreen } from './view/components/SplashScreen';
 
 export function App() {
   return (
@@ -15,7 +15,7 @@ export function App() {
         <LoadScript
           googleMapsApiKey={import.meta.env.VITE_GOOGLE_API_KEY}
           libraries={libs}
-          loadingElement={<Loader visible />}
+          loadingElement={<SplashScreen />}
           region="BR"
         >
           <GlobalStyle />

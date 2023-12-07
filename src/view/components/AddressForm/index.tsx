@@ -46,7 +46,7 @@ export const AddressForm = forwardRef<AddressFormRefType, AddressFormProps>(
     const [state, setState] = useState('_');
     const [city, setCity] = useState('_');
     const cities = useMemo(() => (state ? citiesOptions[state] : []), [state]);
-    const numberInputRef = useRef<HTMLInputElement | null>(null);
+    const numberInputRef = useRef<HTMLInputElement>(null);
 
     useImperativeHandle(
       ref,

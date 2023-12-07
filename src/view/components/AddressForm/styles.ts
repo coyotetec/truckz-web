@@ -4,8 +4,8 @@ export const FormAddress = styled.form`
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  margin-top: 3.6rem;
-  max-width: 31rem;
+  margin: 1.5rem 0 2.5rem;
+  max-width: calc(1092px / 2 - 1.25rem);
 
   .number-district,
   .state-city {

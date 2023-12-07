@@ -43,6 +43,12 @@ export async function createContractor({
       city: addressData.city,
     });
 
+    if (geocondingData?.error_message) {
+      throw new APIError(
+        'Não foi possível criar sua conta, tente novamente mais tarde',
+      );
+    }
+
     const formData = new FormData();
 
     if (image) {
@@ -93,6 +99,10 @@ export async function createContractor({
 
     return data;
   } catch (err) {
+    if (err instanceof APIError) {
+      throw new APIError(err.message);
+    }
+
     if (err instanceof AxiosError) {
       if (err.response?.status === 400) {
         const error = err.response.data.error as string;

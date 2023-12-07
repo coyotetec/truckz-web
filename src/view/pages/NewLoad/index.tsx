@@ -89,10 +89,7 @@ export function NewLoad() {
           addresses={addresses}
         />
       </Content>
-      <Button
-        style={{ width: '496px', margin: '1.5rem auto' }}
-        onClick={handleSubmit}
-      >
+      <Button onClick={handleSubmit}>
         <Check size={24} weight="bold" />
         Criar Carga
       </Button>
