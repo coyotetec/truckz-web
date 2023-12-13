@@ -13,6 +13,7 @@ import { NewLoad } from '../view/pages/NewLoad';
 import { NewAddress } from '../view/pages/NewAddress';
 import { UpdateAddress } from '../view/pages/UpdateAddress';
 import { UpdateLoad } from '../view/pages/UpdateLoad';
+import { DriverSignUp } from '../view/pages/DriverSignUp';
 
 export function Router() {
   return (
@@ -21,6 +22,7 @@ export function Router() {
         <Route element={<AuthGuard isPrivate={false} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up/contractor" element={<ContractorSignUp />} />
+          <Route path="/sign-up/driver" element={<DriverSignUp />} />
         </Route>
 
         <Route element={<AuthGuard isPrivate={true} />}>

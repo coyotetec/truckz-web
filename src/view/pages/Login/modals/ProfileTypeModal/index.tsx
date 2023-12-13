@@ -18,7 +18,13 @@ export function ProfileTypeModal({ visible, onClose }: ProfileTypeModalProps) {
       <Content>
         <h5>Quem é você?</h5>
         <p>Em qual desses papeis você mais se encaixa?</p>
-        <button>
+        <button
+          onClick={() =>
+            navigate('/sign-up/driver', {
+              replace: true,
+            })
+          }
+        >
           <Truck size={24} color={theme.colors.complementary.green[500]} />
           Sou motorista e faço transportes
         </button>
