@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Overlay = styled.div`
   background: ${({ theme }) => theme.colors.modal.overlay};
-  position: absolute;
+  position: fixed;
   top: 0;
   bottom: 0;
   left: 0;

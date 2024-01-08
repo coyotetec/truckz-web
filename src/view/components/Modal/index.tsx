@@ -3,6 +3,7 @@ import { Container, Overlay, Wrapper } from './styles';
 import { X } from '@phosphor-icons/react';
 import { useTheme } from 'styled-components';
 import { ReactPortal } from '../ReactPortal';
+import { useDisableBodyScroll } from '../../../hooks/useDisableBodyScroll';
 
 interface ModalProps {
   children: React.ReactNode;
@@ -19,6 +20,7 @@ export function Modal({
   style,
   closeIconColor,
 }: ModalProps) {
+  useDisableBodyScroll(visible);
   const theme = useTheme();
 
   if (!visible) {
