@@ -41,9 +41,9 @@ export type LoadDataRefType = {
 };
 
 const weightOptions = [
-  { value: 'grams', label: 'Gramas (g)' },
-  { value: 'kilograms', label: 'Kilogramas (Kg)' },
-  { value: 'tons', label: 'Toneladas (T)' },
+  { value: 'grams', label: 'Gramas' },
+  { value: 'kilograms', label: 'Kilogramas' },
+  { value: 'tons', label: 'Toneladas' },
 ];
 const dimensionOptions = [
   { label: 'Metros (m)', value: 'meters' },
@@ -172,7 +172,7 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
           />
           <MaskInput
             mask={'R$ num'}
-            label="Preço"
+            label="Preço do Frete"
             blocksOptions={curreuncyMaskOptions}
             placeholder="Preço"
             value={price}
@@ -236,9 +236,7 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
           </div>
           <Select
             value={dimensionsUnit}
-            onChange={({ target }) =>
-              setDimensionsUnit(target.value as UnitType)
-            }
+            onChange={(value) => setDimensionsUnit(value as UnitType)}
             options={dimensionOptions}
           />
           <div className="weight-load">
@@ -247,26 +245,28 @@ export const LoadData = forwardRef<LoadDataRefType, LoadDataProps>(
               label="Peso"
               value={weight}
               mask={Number}
-              scale={2}
+              scale={6}
               min={0}
-              max={999.99}
+              max={999.999999}
               radix=","
               onChange={(value) => setWeight(value)}
               error={formErrors?.weight}
             />
             <Select
-              wrapperStyle={
-                formErrors?.weight
+              wrapperStyle={{
+                ...{
+                  flex: 1,
+                },
+                ...(formErrors?.weight
                   ? { marginTop: '0px' }
-                  : { marginTop: '22px' }
-              }
+                  : { marginTop: '22px' }),
+              }}
               placeholder="Kg"
               value={weightUnit}
-              onChange={({ target }) => setWeightUnit(target.value as UnitType)}
+              onChange={(value) => setWeightUnit(value as UnitType)}
               options={weightOptions}
             />
           </div>
-          <label>Descrição / Observações</label>
           <TextArea
             name="description"
             label="Descrição / Observações"

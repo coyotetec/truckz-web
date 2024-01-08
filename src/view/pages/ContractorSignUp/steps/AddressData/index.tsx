@@ -135,8 +135,8 @@ export const AddressData = forwardRef<addressDataRefType, AddressDataProps>(
             wrapperStyle={{ width: 140 }}
             options={statesOptions}
             value={data.state}
-            onChange={(e) => {
-              handleDataChange('state', e.target.value);
+            onChange={(value) => {
+              handleDataChange('state', value);
               handleDataChange('city', '_');
             }}
           />
@@ -147,7 +147,7 @@ export const AddressData = forwardRef<addressDataRefType, AddressDataProps>(
             wrapperStyle={{ flex: 1 }}
             options={cities}
             value={data.city}
-            onChange={(e) => handleDataChange('city', e.target.value)}
+            onChange={(value) => handleDataChange('city', value)}
           />
         </div>
         {(errors?.state || errors?.city) && (

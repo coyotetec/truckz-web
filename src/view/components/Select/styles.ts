@@ -7,29 +7,14 @@ export const Wrapper = styled.div`
     line-height: 150%;
     color: ${({ theme }) => theme.colors.white[600]};
   }
-`;
 
-export const Container = styled.div`
-  height: 52px;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.colors.black[200]};
-  margin-top: 4px;
-  position: relative;
-
-  select {
-    height: 100%;
+  .p-dropdown {
+    height: 52px;
     width: 100%;
-    background: transparent;
-    border: none;
+    border-radius: 8px;
+    background: ${({ theme }) => theme.colors.black[200]};
     outline: none;
-    font-family: Manrope, sans-serif;
-    font-size: 16px;
-    color: ${({ theme }) => theme.colors.white[400]};
     padding: 0 14px;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    position: relative;
-    z-index: 5;
+    align-items: center;
   }
 `;

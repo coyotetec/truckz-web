@@ -1,19 +1,19 @@
-import { SelectHTMLAttributes } from 'react';
-import { Container, Wrapper } from './styles';
-import { CaretDown } from '@phosphor-icons/react';
-import { useTheme } from 'styled-components';
+import { Wrapper } from './styles';
+import { Dropdown } from 'primereact/dropdown';
 
 export interface IOption {
   value: string;
   label: string;
 }
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectProps {
   name?: string;
   label?: string;
   placeholder?: string;
   wrapperStyle?: React.CSSProperties;
   options?: IOption[];
+  value: string | undefined | null;
+  onChange: (value: string) => void;
 }
 
 export function Select({
@@ -22,38 +22,22 @@ export function Select({
   placeholder,
   wrapperStyle,
   options,
-  ...rest
+  value,
+  onChange,
 }: SelectProps) {
-  const theme = useTheme();
-
   return (
     <Wrapper style={wrapperStyle}>
       {label && <label htmlFor={name}>{label}</label>}
-      <Container>
-        <select id={name} {...rest}>
-          {placeholder && (
-            <option value="_" disabled hidden>
-              {placeholder}
-            </option>
-          )}
-          {options?.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <CaretDown
-          size={20}
-          color={theme.colors.white[400]}
-          weight="bold"
-          style={{
-            position: 'absolute',
-            right: 12,
-            top: '50%',
-            transform: 'translateY(-50%)',
-          }}
-        />
-      </Container>
+
+      <Dropdown
+        id={name}
+        options={options}
+        value={value}
+        onChange={(e) => onChange(e.value)}
+        optionLabel="label"
+        placeholder={placeholder}
+        emptyMessage="Nenhum item"
+      />
     </Wrapper>
   );
 }

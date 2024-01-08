@@ -167,8 +167,8 @@ export const AddressForm = forwardRef<AddressFormRefType, AddressFormProps>(
               value={state}
               placeholder="UF"
               options={statesOptions}
-              onChange={({ target }) => {
-                setState(target.value);
+              onChange={(value) => {
+                setState(value);
                 setCity('_');
               }}
             />
@@ -178,7 +178,7 @@ export const AddressForm = forwardRef<AddressFormRefType, AddressFormProps>(
               value={city}
               placeholder="Cidade"
               options={cities}
-              onChange={({ target }) => setCity(target.value)}
+              onChange={(value) => setCity(value)}
               wrapperStyle={{ flex: 1 }}
             />
           </div>
