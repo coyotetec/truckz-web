@@ -11,6 +11,7 @@ import { Select } from '../../components/Select';
 import { LoadModal } from './components/LoadModal';
 
 export function MyLoads() {
+  const [status, setStatus] = useState('all');
   const [loads, setLoads] = useState<IGetLoadResponse[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [currentLoad, setCurrentLoad] = useState<
@@ -65,6 +66,9 @@ export function MyLoads() {
                 { label: 'Inativas', value: 'inactive' },
               ]}
               wrapperStyle={{ width: 240 }}
+              value={status}
+              onChange={setStatus}
+              name="status"
             />
           </div>
           <Button style={{ width: 220 }} onClick={() => navigate('/loads/new')}>

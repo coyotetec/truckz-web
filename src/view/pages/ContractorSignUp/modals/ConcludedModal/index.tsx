@@ -15,7 +15,7 @@ export function ConcludedModal({ visible }: ConcludedModalProps) {
     <Modal visible={visible}>
       <Container>
         <h5>Conta Criada!</h5>
-        <p>Agora você poderá utilizar de todos os recursos do truck.</p>
+        <p>Agora você poderá utilizar de todos os recursos do Truckz.</p>
         <Button
           onClick={() =>
             navigate('/login', {
