@@ -40,14 +40,21 @@ export function NewLoad() {
       pickupAndDeliveryData,
     );
 
-    if (!loadDataValidation.success) {
-      return setLoadDataFormErrors(formatZodErrors(loadDataValidation.error));
-    }
-
-    if (!pickupAndDeliveryValidation.success) {
-      return setPickupAndDeliveryFormErrors(
-        formatZodErrors(pickupAndDeliveryValidation.error),
+    if (!loadDataValidation.success || !pickupAndDeliveryValidation.success) {
+      setIsLoading(false);
+      setLoadDataFormErrors(
+        !loadDataValidation.success
+          ? formatZodErrors(loadDataValidation.error)
+          : null,
       );
+
+      setPickupAndDeliveryFormErrors(
+        !pickupAndDeliveryValidation.success
+          ? formatZodErrors(pickupAndDeliveryValidation.error)
+          : null,
+      );
+
+      return;
     }
 
     setLoadDataFormErrors(null);

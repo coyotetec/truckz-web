@@ -13,6 +13,7 @@ export const DataLoadContainer = styled.div`
       gap: 1rem;
 
       .error {
+        margin-top: -12px;
         font-size: 12px;
         font-weight: 600;
         color: ${({ theme }) => theme.colors.complementary.red[500]};

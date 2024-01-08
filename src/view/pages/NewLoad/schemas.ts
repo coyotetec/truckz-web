@@ -55,11 +55,12 @@ export const addressSchema = z
       },
       {
         invalid_type_error: 'Selecione um local de coleta',
+        required_error: 'Digite ou selecione um endereço de coleta',
       },
     ),
     pickupDate: z
       .string()
-      .length(10, {
+      .refine((data) => data.length !== 10, {
         message: 'Insira uma data de coleta válida',
       })
       .transform((data) => parse(data, 'dd/MM/yyyy', new Date()))
@@ -85,12 +86,13 @@ export const addressSchema = z
       },
       {
         invalid_type_error: 'Selecione um local de entrega',
+        required_error: 'Digite ou selecione um endereço de entrega',
       },
     ),
     deliveryDate: z
       .string()
-      .length(10, {
-        message: 'Insira uma data de entrega válida',
+      .refine((data) => data.length !== 10, {
+        message: 'Insira uma data de coleta válida',
       })
       .transform((data) => parse(data, 'dd/MM/yyyy', new Date()))
       .refine((data) => !isNaN(data.valueOf()), {
