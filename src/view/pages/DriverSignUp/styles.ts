@@ -14,6 +14,7 @@ export const Container = styled.div`
     width: 100%;
     max-width: 460px;
     margin: 0 auto;
+    padding: 32px 20px;
 
     svg {
       align-self: center;
@@ -56,5 +57,13 @@ export const Container = styled.div`
     background-position: right;
     background-size: cover;
     z-index: 1;
+  }
+
+  @media (max-width: 1023px) {
+    grid-template-columns: 1fr;
+
+    .image {
+      display: none;
+    }
   }
 `;

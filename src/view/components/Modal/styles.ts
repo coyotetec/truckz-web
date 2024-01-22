@@ -41,4 +41,10 @@ export const Container = styled.div`
     right: 8px;
     z-index: 999;
   }
+
+  @media (max-width: 1023px) {
+    min-width: initial;
+    width: 100%;
+    margin: 0 20px;
+  }
 `;
