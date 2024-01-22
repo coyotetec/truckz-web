@@ -16,7 +16,6 @@ export function DriverSignUp() {
       <main className="content">
         <Logo height={40} />
         <h1>
-          {' '}
           <button
             className="back-button"
             onClick={() =>

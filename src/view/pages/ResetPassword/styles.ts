@@ -21,6 +21,16 @@ export const Container = styled.div`
 
     h1 {
       margin-top: 40px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .back-button {
+        display: flex;
+        background: transparent;
+        border: none;
+        outline: none;
+      }
     }
 
     p {
@@ -28,26 +38,15 @@ export const Container = styled.div`
     }
 
     form {
-      margin-top: 72px;
+      margin-top: 40px;
       display: flex;
       flex-direction: column;
       gap: 12px;
 
-      > a {
-        margin-top: -8px;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 145%;
-        text-align: right;
-        color: ${({ theme }) => theme.colors.primary[300]};
-        text-decoration: none;
-      }
-
       .actions {
-        margin-top: 12px;
+        margin-top: 8px;
         display: flex;
         flex-direction: column;
-        gap: 16px;
       }
     }
   }

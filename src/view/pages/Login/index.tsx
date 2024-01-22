@@ -14,6 +14,7 @@ import { Loader } from '../../components/Loader';
 import { APIError } from '../../../errors/APIError';
 import { useAuth } from '../../../hooks/useAuth';
 import toast from 'react-hot-toast';
+import { Link } from 'react-router-dom';
 
 export function Login() {
   const [isLoading, setIsLoading] = useState(false);
@@ -87,7 +88,7 @@ export function Login() {
             onChange={(e) => setPassword(e.target.value)}
             error={formErrors?.password}
           />
-          <span>Esqueceu a senha?</span>
+          <Link to="/forgot-password">Esqueceu a senha?</Link>
           <div className="actions">
             <Button type="submit" disabled={!canSubmit}>
               Login

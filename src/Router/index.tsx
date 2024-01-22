@@ -14,6 +14,8 @@ import { NewAddress } from '../view/pages/NewAddress';
 import { UpdateAddress } from '../view/pages/UpdateAddress';
 import { UpdateLoad } from '../view/pages/UpdateLoad';
 import { DriverSignUp } from '../view/pages/DriverSignUp';
+import { RequestResetPassword } from '../view/pages/RequestResetPassword';
+import { ResetPassword } from '../view/pages/ResetPassword';
 
 export function Router() {
   return (
@@ -23,6 +25,8 @@ export function Router() {
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up/contractor" element={<ContractorSignUp />} />
           <Route path="/sign-up/driver" element={<DriverSignUp />} />
+          <Route path="/forgot-password" element={<RequestResetPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
         </Route>
 
         <Route element={<AuthGuard isPrivate={true} />}>
