@@ -122,7 +122,7 @@ export function ResetPassword() {
             placeholder="Confirme sua senha"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            error={formErrors?.password}
+            error={formErrors?.confirmPassword}
           />
           <div className="actions">
             <Button type="submit" disabled={!canSubmit}>

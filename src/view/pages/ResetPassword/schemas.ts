@@ -26,7 +26,7 @@ export const resetPasswordSchema = z
     if (data.password !== data.confirmPassword) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
-        message: 'As senhas não conferem',
+        message: 'As senhas não coincidem',
         path: ['confirmPassword'],
       });
     }
